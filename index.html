@@ -34,8 +34,8 @@
             background: var(--background-color);
             color: var(--text-color);
             line-height: 1.7;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            -webkit-text-size-adjust: 100%;
+            /* Extra safety: if anything tries to cause horizontal scroll remove it */
+            overflow-x: hidden !important; 
         }
 
         a {
@@ -50,9 +50,7 @@
             transition: margin-left 0.4s ease;
         }
 
-        /* Use mobile-safe vh replacement method for full-height sections if needed */
         section {
-            /* keep existing look but avoid 100vh mobile quirks by using auto/min-height on mobile */
             min-height: 100vh;
             padding: 100px 5%;
             padding-left: 5%; /* Adjusted for main content area padding */
@@ -246,36 +244,75 @@
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        .hero-text-area h1 {
-            font-size: 1.4rem;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            position: relative; /* allow overlay adjustments */
+        /* ---------------------------------------------------- */
+        /* --- NEW: ROBUST TYPING STYLES FROM YOUR REQUEST --- */
+        /* ---------------------------------------------------- */
+        /* --- Strong typing isolation to avoid layout reflow --- */
+        .typing-wrapper {
+            display:inline-block;
+            position:relative;
+            vertical-align:middle;
+            /* fallback reserve to avoid any flash before JS runs */
+            min-width: 20ch;
+            max-width: 100%;
+            overflow: visible;
         }
-
-        /* Prevent typed text from wrapping and reserve width to avoid reflow on mobile */
+        /* static text: keep in flow but don't let it wrap */
+        .hero-heading, #heroStatic {
+            display:inline-block;
+            margin:0;
+            padding:0;
+            white-space:nowrap;
+            vertical-align:middle;
+            font-weight:700;
+            line-height:1;
+            font-size: 1.4rem; /* Matching your original H1 size */
+            margin-bottom: 20px;
+        }
+        /* typed area overlayed and not in flow */
+        .typed-area {
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            pointer-events:none;
+            overflow:hidden;            /* prevents scrollbars */
+        }
+        /* typed text: never wrap, measured by JS */
         .typed-text {
+            white-space:nowrap;
+            display:inline-block;
+            min-width:0;
+            will-change: contents, transform;
+            transform: translateZ(0);  /* avoid repaint thrash on mobile */
             color: var(--primary-color);
             font-weight: 700;
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-            white-space: nowrap;
-            display: inline-block;
-            min-width: 0;
+            font-size: 1.4rem; /* Matching original */
         }
+        /* ensure the cursor doesn't change flow */
+        .typed-cursor { 
+            display:inline-block;
+            width:3px;
+            height:1.1rem;
+            background:var(--primary-color, #0ff);
+            margin-left:6px;
+            border-radius:2px;
+            animation: blink .7s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
 
-        .typed-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1rem; 
-            background-color: #0ff;
-            margin-left: 5px;
-            animation: blink 0.7s infinite;
+        /* On tiny screens reduce reserved width clamping */
+        @media (max-width:420px){
+            .typing-wrapper { min-width: 12ch; }
         }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        /* ---------------------------------------------------- */
+        /* --- END NEW TYPING STYLES ------------------------- */
+        /* ---------------------------------------------------- */
 
         /* Hero Visual Graphic */
         .hero-visual-area {
@@ -306,7 +343,7 @@
             width: 200px;
             height: 200px;
             position: absolute;
-            top: 50;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); /* Centering */
             border-radius: 50%;
@@ -426,15 +463,12 @@
             
             --radius: 250px; /* Radius of the orbit */
             
-            /* 1. Rotate around the center */
+            /* CORRECTED ORBIT TRANSFORM LOGIC */
             transform: 
+                translate(-50%, -50%) 
                 rotate(var(--rotation)) 
-                /* 2. Translate out to the edge of the circle */
                 translate(var(--radius)) 
-                /* 3. Rotate back to keep the icon itself upright (counter-rotation) */
-                rotate(calc(-1 * var(--rotation)))
-                /* 4. Center the icon circle on the translation point */
-                translate(-50%, -50%); 
+                rotate(calc(-1 * var(--rotation)));
         }
         .skill-icon:hover { background-color: #0ff; color: #111; box-shadow: 0 0 20px #fff; }
 
@@ -673,7 +707,6 @@
             
             /* Home */
             #home { padding: 80px 20px; }
-            .hero-text-area h1 { font-size: 3rem; }
             
             /* General Layout */
             .about-container { flex-direction: column; }
@@ -686,9 +719,9 @@
            h2 { font-size: 2.2rem; margin-bottom: 30px; }
             .hero-text-area h1 { 
                 font-size: 2.2rem; 
-                min-height: 5.5rem; /* NEW FIX: Reserves space to prevent page jump during typing */
+                /* Removed min-height here because we are using the new typing-wrapper reserve */
             }
-            .typed-cursor { font-size: 2.2rem; }
+            /* .typed-cursor handled in new CSS block */
             #intro-text { font-size: 1.2rem; }
             .btn { padding: 10px 20px; font-size: 1rem; margin-right: 10px; }
             .button-group { display: flex; flex-direction: column; gap: 15px; }
@@ -702,10 +735,6 @@
             .success-box { padding: 30px; }
             .success-box h3 { font-size: 1.8rem; }
         }
-
-        /* Ensure inputs won't trigger mobile zoom (font-size >= 16px) */
-        input, textarea, select { font-size: 16px; }
-
     </style>
 </head>
 <body>
@@ -714,7 +743,7 @@
 
     <nav id="sidebar">
         <div class="profile-photo">
-            <img src="C:\\Users\\sathi\\OneDrive\\Desktop\\portfolio\\sathish.jpg" alt="Sathish K Profile">
+            <img src="C:\Users\sathi\OneDrive\Desktop\portfolio\sathish.jpg" alt="Sathish K Profile">
         </div>
         <h3 class="profile-name">Sathish K</h3>
         <p class="profile-title">Full Stack Developer</p>
@@ -739,55 +768,60 @@
     
     <main id="main-content">
         <section id="home">
-                <div class="hero-grid">
-                    <div class="hero-text-area">
-                        <p id="intro-text">Hello, I'm Sathish K</p>
-                        <h1 id="heroHeading">
-                            I am a 
-                            <span class="typed-text"></span>
-                            <span class="typed-cursor">|</span>
-                        </h1>
-                        <p style="margin-bottom: 15px;">
-                           “Rise after every fall; each failure is a lesson shaping your path to success and proving your strength to the world and yourself.”
-                        <div class="button-group">
-                            <a href="#contact" class="btn">Let's Connect</a>
-                            <a href="./assets/Sathishresume.pdf" target="_blank" class="btn btn-secondary">View Resume</a>
-                        </div>
-                    </div>
+            <div class="hero-grid">
+                <div class="hero-text-area">
+                    <p id="intro-text">Hello, I'm Sathish K</p>
                     
-                    <div class="hero-visual-area">
-                        <div class="animated-graphic-container">
-                            <div class="skill-orbit-container" id="skill-orbit-container">
-                                <div class="skill-icon icon-html"><i class="fab fa-html5"></i></div>
-                                <div class="skill-icon icon-css"><i class="fab fa-css3-alt"></i></div>
-                                <div class="skill-icon icon-js"><i class="fab fa-js-square"></i></div>
-                                <div class="skill-icon icon-bootstrap"><i class="fab fa-bootstrap"></i></div>
-                                <div class="skill-icon icon-python"><i class="fab fa-python"></i></div>
-                                <div class="skill-icon icon-java"><i class="fab fa-java"></i></div>
-                                <div class="skill-icon icon-mongodb"><i class="fas fa-database"></i></div>
-                                <div class="skill-icon icon-ai-ml"><i class="fas fa-brain"></i></div>
-                                <div class="skill-icon icon-data-analytics"><i class="fas fa-chart-line"></i></div>
-                                <div class="skill-icon icon-powerbi"><i class="fas fa-chart-pie"></i></div>
-                                <div class="skill-icon icon-problem"><i class="fas fa-lightbulb"></i></div>
+                    <div class="typing-wrapper" id="typingWrapper" aria-hidden="false" style="position:relative;">
+                      <h1 class="hero-heading" id="heroStatic">I am a</h1>
+
+                      <div class="typed-area" id="typedArea" aria-live="polite" role="status" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;display:flex;align-items:center;gap:8px;overflow:hidden;white-space:nowrap;">
+                        <span class="typed-text" id="typedText" style="display:inline-block;white-space:nowrap;min-width:0;"></span>
+                        <span class="typed-cursor" id="typedCursor" aria-hidden="true">|</span>
+                      </div>
+                    </div>
+                    <p style="margin-bottom: 15px;">
+                        “Rise after every fall; each failure is a lesson shaping your path to success and proving your strength to the world and yourself.”
+                    </p>
+                    <div class="button-group">
+                        <a href="#contact" class="btn">Let's Connect</a>
+                        <a href="./assets/Sathishresume.pdf" target="_blank" class="btn btn-secondary">View Resume</a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual-area">
+                    <div class="animated-graphic-container">
+                        <div class="skill-orbit-container" id="skill-orbit-container">
+                            <div class="skill-icon icon-html"><i class="fab fa-html5"></i></div>
+                            <div class="skill-icon icon-css"><i class="fab fa-css3-alt"></i></div>
+                            <div class="skill-icon icon-js"><i class="fab fa-js-square"></i></div>
+                            <div class="skill-icon icon-bootstrap"><i class="fab fa-bootstrap"></i></div>
+                            <div class="skill-icon icon-python"><i class="fab fa-python"></i></div>
+                            <div class="skill-icon icon-java"><i class="fab fa-java"></i></div>
+                            <div class="skill-icon icon-mongodb"><i class="fas fa-database"></i></div>
+                            <div class="skill-icon icon-ai-ml"><i class="fas fa-brain"></i></div>
+                            <div class="skill-icon icon-data-analytics"><i class="fas fa-chart-line"></i></div>
+                            <div class="skill-icon icon-powerbi"><i class="fas fa-chart-pie"></i></div>
+                            <div class="skill-icon icon-problem"><i class="fas fa-lightbulb"></i></div>
+                        </div>
+                        <div class="photo-container" id="photo-container">
+                            <div>
+                                <div class="bar" data-height="80"></div>
+                                <div class="bar" data-height="50"></div>
+                                <div class="bar" data-height="90"></div>
+                                <div class="bar" data-height="65"></div>
+                                <div class="bar" data-height="75"></div>
+                                <div class="bar" data-height="40"></div>
+                                <div class="bar" data-height="85"></div>
+                                <div class="bar" data-height="55"></div>
+                                <div class="bar" data-height="95"></div>
+                                <div class="bar" data-height="70"></div>
                             </div>
-                            <div class="photo-container" id="photo-container">
-                                <div>
-                                    <div class="bar" data-height="80"></div>
-                                    <div class="bar" data-height="50"></div>
-                                    <div class="bar" data-height="90"></div>
-                                    <div class="bar" data-height="65"></div>
-                                    <div class="bar" data-height="75"></div>
-                                    <div class="bar" data-height="40"></div>
-                                    <div class="bar" data-height="85"></div>
-                                    <div class="bar" data-height="55"></div>
-                                    <div class="bar" data-height="95"></div>
-                                    <div class="bar" data-height="70"></div>
-                                </div>
-                                <img src="C:\\Users\\sathi\\OneDrive\\Desktop\\portfolio\\sathish.jpg" alt="My Profile Photo">
-                            </div>
+                            <img src="C:\Users\sathi\OneDrive\Desktop\portfolio\sathish.jpg" alt="My Profile Photo">
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
 
         <section id="about">
@@ -959,95 +993,6 @@
             sidebar.classList.toggle('open');
             menuIcon.classList.toggle('fa-bars'); 
             menuIcon.classList.toggle('fa-times'); 
-            // lock body scroll on open to avoid layout shift
-            document.body.classList.toggle('nav-open', sidebar.classList.contains('open'));
-        }
-
-        // --- Typing Effect (from Home section) ---
-        const texts = [
-            "Full Stack Developer",
-            "AI & ML Enthusiast",
-            "Front-End Developer",
-            "Back-End Developer",
-            "UI/UX Designer",
-            "Problem Solver",
-            "Technology Enthusiast"
-        ];
-        let textIndex = 0;
-        let charIndex = 0;
-        const typedTextElement = document.querySelector('.typed-text');
-        const typingSpeed = 100; // ms per character
-        const erasingSpeed = 50; // ms per character
-        const newTextDelay = 2000; // ms delay before typing next text
-
-        function type() {
-            if (!typedTextElement) return; 
-            if (charIndex < texts[textIndex].length) {
-                typedTextElement.textContent += texts[textIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(type, typingSpeed);
-            } else {
-                setTimeout(erase, newTextDelay);
-            }
-        }
-
-        function erase() {
-            if (!typedTextElement) return;
-            if (charIndex > 0) {
-                typedTextElement.textContent = texts[textIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(erase, erasingSpeed);
-            } else {
-                textIndex++;
-                if (textIndex >= texts.length) {
-                    textIndex = 0;
-                }
-                setTimeout(type, typingSpeed + 500);
-            }
-        }
-
-        // --- Reserve width for typing to prevent page moving on mobile ---
-        function reserveTypingWidth(){
-            const heroH1 = document.getElementById('heroHeading');
-            const typed = document.querySelector('.typed-text');
-            if(!heroH1 || !typed) return;
-
-            // get computed font for accurate measurement
-            const computed = window.getComputedStyle(heroH1);
-            const font = [computed.fontStyle, computed.fontVariant, computed.fontWeight, computed.fontSize, computed.fontFamily].filter(Boolean).join(' ');
-
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.font = font;
-
-            // measure widest combined width of static text + phrase
-            const staticText = 'I am a ';
-            let maxPx = 0;
-            texts.forEach(t => {
-                const full = staticText + t;
-                const w = Math.ceil(ctx.measureText(full).width);
-                if(w > maxPx) maxPx = w;
-            });
-            // add padding for cursor and breathing room
-            maxPx += 36;
-
-            // clamp so it never exceeds viewport width minus margin
-            const viewportMax = Math.max(100, Math.floor(window.innerWidth - 40));
-            const finalPx = Math.min(maxPx, viewportMax);
-
-            // apply as min-width on the h1 to reserve space
-            heroH1.style.minWidth = finalPx + 'px';
-            heroH1.style.whiteSpace = 'nowrap';
-
-            // ensure typed-text won't wrap
-            typed.style.whiteSpace = 'nowrap';
-            typed.style.display = 'inline-block';
-
-            // adjust on resize
-            window.addEventListener('resize', () => {
-                const vp = Math.max(100, Math.floor(window.innerWidth - 40));
-                heroH1.style.minWidth = Math.min(maxPx, vp) + 'px';
-            });
         }
 
         // --- Home Visual Animation ---
@@ -1067,7 +1012,6 @@
         }
 
         function resetAnimation(element, animationName) {
-            if(!element) return;
             element.style.animation = 'none';
             element.offsetHeight; 
             element.style.animation = animationName;
@@ -1099,12 +1043,10 @@
         // --- Success Modal Logic ---
         function showSuccessOverlay() {
             document.getElementById('successOverlay').style.display = 'flex';
-            document.body.classList.add('modal-open');
         }
 
         function closeSuccessOverlay() {
             document.getElementById('successOverlay').style.display = 'none';
-            document.body.classList.remove('modal-open');
         }
 
 
@@ -1161,24 +1103,133 @@
             });
         }
 
+        // ---- NEW: Robust typing + measured reserve to prevent mobile jumps ----
+        (function robustTyping(){
+          const PHRASES = [
+            "Full Stack Developer",
+            "AI & ML Enthusiast",
+            "Front-End Developer",
+            "Back-End Developer",
+            "UI/UX Designer",
+            "Problem Solver",
+            "Technology Enthusiast"
+          ];
+
+          const typedEl = document.getElementById('typedText');
+          const cursorEl = document.getElementById('typedCursor');
+          const wrapper = document.getElementById('typingWrapper');
+          const staticEl = document.getElementById('heroStatic');
+
+          if(!typedEl || !wrapper || !staticEl) {
+            // nothing to do if structure not found
+            return;
+          }
+
+          // measure pixel width of given text using computed font
+          function measureTextPx(text, referenceEl){
+            const canvas = measureTextPx._canvas || (measureTextPx._canvas = document.createElement('canvas'));
+            const ctx = canvas.getContext('2d');
+            const comp = window.getComputedStyle(referenceEl);
+            const font = [comp.fontStyle, comp.fontVariant, comp.fontWeight, comp.fontSize, comp.fontFamily].filter(Boolean).join(' ');
+            ctx.font = font;
+            return Math.ceil(ctx.measureText(text).width);
+          }
+
+          // Reserve enough width for: static text + longest phrase + breathing room
+          function applyReserve(){
+            const staticText = staticEl.textContent || '';
+            let maxPx = 0;
+            PHRASES.forEach(p => {
+              const full = staticText + ' ' + p;
+              const w = measureTextPx(full, staticEl);
+              if(w > maxPx) maxPx = w;
+            });
+            const breathing = 36; // px for cursor/gap
+            maxPx += breathing;
+
+            // clamp to viewport to prevent horizontal overflow on tiny phones
+            const maxAllowed = Math.max(120, Math.floor(window.innerWidth - 36)); // leave margin
+            const final = Math.min(maxPx, maxAllowed);
+
+            // apply as min-width to wrapper so H1 area cannot shrink/expand
+            wrapper.style.minWidth = final + 'px';
+
+            // position typed-area start to the right of the static text
+            const staticWidth = measureTextPx(staticText + ' ', staticEl);
+            const leftOffset = Math.min(staticWidth + 8, Math.floor(window.innerWidth * 0.7)); // clamp
+            const typedArea = document.getElementById('typedArea');
+            if(typedArea) typedArea.style.left = leftOffset + 'px';
+          }
+
+          // small adaptive handler: re-apply reserve on resize and font load
+          function safeApply(){
+            try{ applyReserve(); } catch(e){ console.warn('reserve apply failed', e); }
+          }
+          window.addEventListener('resize', safeApply);
+          // Some browsers may delay webfont load — re-run after load event
+          window.addEventListener('load', safeApply);
+          safeApply();
+
+          // Typing engine (non-blocking)
+          let pIndex = 0, cIndex = 0;
+          const typingSpeed = 80;
+          const erasingSpeed = 40;
+          const pauseBetween = 1400;
+
+          function typeChar(){
+            const cur = PHRASES[pIndex];
+            if(cIndex < cur.length){
+              typedEl.textContent += cur.charAt(cIndex);
+              cIndex++;
+              setTimeout(typeChar, typingSpeed);
+            } else {
+              setTimeout(eraseChar, pauseBetween);
+            }
+          }
+          function eraseChar(){
+            if(cIndex > 0){
+              typedEl.textContent = typedEl.textContent.slice(0, -1);
+              cIndex--;
+              setTimeout(eraseChar, erasingSpeed);
+            } else {
+              pIndex = (pIndex + 1) % PHRASES.length;
+              setTimeout(typeChar, 300);
+            }
+          }
+
+          // Ensure cursor blinking (no layout)
+          if(cursorEl) cursorEl.style.willChange = 'opacity, transform';
+
+          // Start when DOM ready (if already ready, start now)
+          if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', () => { safeApply(); setTimeout(typeChar, 400); });
+          } else {
+            safeApply(); setTimeout(typeChar, 400);
+          }
+
+          // DEBUG: capture snapshots of widths before/after typing to find moving element
+          window.__typingDebug = function captureTypingSnapshot(){
+            const all = [...document.querySelectorAll('body *')];
+            return all.map(el => {
+              const r = el.getBoundingClientRect();
+              return { el, w: Math.round(r.width), h: Math.round(r.height), id: el.id || null, cls: el.className || null };
+            }).filter(x => x.w > 0);
+          };
+        })();
+
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize EmailJS with your Public Key (vdZC4c4_myQ5nnRme)
             (function () {
-                try{ emailjs.init("vdZC4c4_myQ5nnRme"); } catch(e){ console.warn('EmailJS init failed', e); }
+                emailjs.init("vdZC4c4_myQ5nnRme"); 
             })();
             
-            // Start the animations and typing effect
-            setTimeout(type, newTextDelay);
+            // Start the animations
             runVisualAnimation();
-
-            // Reserve typing width so changing typed phrases doesn't move the page on mobile
-            reserveTypingWidth();
 
             // Event listeners
             window.addEventListener('scroll', updateActiveLink);
             window.addEventListener('scroll', checkHomeSection); 
             window.addEventListener('hashchange', checkHomeSection); 
-            window.addEventListener('resize', reserveTypingWidth);
             
             updateActiveLink(); 
 
