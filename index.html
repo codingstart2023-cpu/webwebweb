@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sathish K - Full Stack Developer | AI/ML Enthusiast</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         /* ==================================== */
@@ -34,6 +35,7 @@
             color: var(--text-color);
             line-height: 1.7;
             overflow-x: hidden; /* Prevent horizontal scroll */
+            -webkit-text-size-adjust: 100%;
         }
 
         a {
@@ -48,7 +50,9 @@
             transition: margin-left 0.4s ease;
         }
 
+        /* Use mobile-safe vh replacement method for full-height sections if needed */
         section {
+            /* keep existing look but avoid 100vh mobile quirks by using auto/min-height on mobile */
             min-height: 100vh;
             padding: 100px 5%;
             padding-left: 5%; /* Adjusted for main content area padding */
@@ -117,7 +121,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            background: var(--dark-background);
+            background: var(--dark-bg);
             padding: 40px 0;
             display: flex;
             flex-direction: column;
@@ -132,15 +136,15 @@
            width: 90px;
             height: 90px;
             border-radius: 50%;
-            border: 4px solid var(--primary-color);
-            box-shadow: 0 0 20px var(--primary-color);
+            border: 4px solid var(--neon-color);
+            box-shadow: 0 0 20px var(--neon-color);
             object-fit: cover;
             margin-bottom: 15px;
             transition: box-shadow 0.3s;
         }
 
          .profile-photo img:hover {
-            box-shadow: 0 0 30px #fff, 0 0 50px var(--primary-color);
+            box-shadow: 0 0 30px #fff, 0 0 50px var(--neon-color);
         }
 
         .profile-name {
@@ -151,11 +155,11 @@
 
         .profile-title {
             font-size: 0.9rem;
-            color: var(--primary-color);
+            color: #0ff;
             margin-bottom: 30px;
         }
 
-        /* Sidebar Social Icons Style */
+        /* FIX 1: Sidebar Social Icons Style */
         .sidebar-social-icons {
             display: flex;
             gap: 18px;
@@ -170,9 +174,9 @@
         }
 
         .sidebar-social-icons a:hover {
-             color: var(--primary-color);
+             color: var(--neon-color);
             transform: scale(1.1);
-            text-shadow: 0 0 10px var(--primary-color);
+            text-shadow: 0 0 10px var(--neon-color);
         }
 
         /* Navigation Links */
@@ -242,43 +246,29 @@
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        /* ---------- IMPORTANT: Prevent layout shift while typing ----------
-           Fix applied: reserve space, prevent wrapping, set min-width for typed area.
-           This stops the entire page from moving during the typing animation.
-        -------------------------------------------------------------------*/
         .hero-text-area h1 {
             font-size: 1.4rem;
             line-height: 1.2;
             margin-bottom: 20px;
-            /* Reserve vertical space so typing doesn't change height */
-            min-height: 2.8rem; /* desktop default */
-            /* Prevent extra wrapping causing layout reflows */
-            white-space: nowrap;
-            overflow: hidden;
+            position: relative; /* allow overlay adjustments */
         }
 
+        /* Prevent typed text from wrapping and reserve width to avoid reflow on mobile */
         .typed-text {
             color: var(--primary-color);
             font-weight: 700;
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-            display: inline-block;
-            /* Reserve horizontal space by using ch (character) units */
-            min-width: 24ch; /* ensures the width doesn't jump during typing */
-            max-width: 100%;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            vertical-align: middle;
+            display: inline-block;
+            min-width: 0;
         }
 
-        /* typed cursor kept outside flow as small inline element but won't change height */
         .typed-cursor {
             display: inline-block;
             width: 3px;
             height: 1rem; 
-            background-color: var(--primary-color);
-            margin-left: 6px;
-            vertical-align: middle;
+            background-color: #0ff;
+            margin-left: 5px;
             animation: blink 0.7s infinite;
         }
 
@@ -316,7 +306,7 @@
             width: 200px;
             height: 200px;
             position: absolute;
-            top: 50%;
+            top: 50;
             left: 50%;
             transform: translate(-50%, -50%); /* Centering */
             border-radius: 50%;
@@ -326,7 +316,6 @@
             z-index: 10;
             opacity: 0; 
             animation: photoFlyIn 1.5s ease-out forwards 0.8s;
-            background: #0a0a0a;
         }
 
         .photo-container img {
@@ -349,7 +338,7 @@
             align-items: flex-end;
             padding: 10px;
             z-index: 11;
-            background: rgba(0, 0, 0, 0.0);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .bar {
@@ -370,13 +359,28 @@
             height: 110%;
             border-radius: 50%;
             border: 1px dashed rgba(0, 255, 255, 0.3);
-            animation: orbitFlyIn 1.5s ease-out forwards, spin 20s linear infinite;
+            animation: spin 20s linear infinite;
             opacity: 0;
             transform: scale(0);
+            animation: orbitFlyIn 1.5s ease-out forwards, spin 20s linear infinite;
         }
          @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes orbitFlyIn { from { opacity: 0; transform: scale(0.5) rotate(0deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
         
+        .photo-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 3;
+            width: 200px; 
+            height: 200px;
+            border-radius: 50%; 
+            overflow: hidden;
+            opacity: 0; 
+            animation: photoFlyIn 1.5s ease-out forwards; 
+            animation-delay: 0.8s;
+        }
         @keyframes photoFlyIn { 
             from { opacity: 0; transform: translate(-50%, 50%) scale(0.8); }
             to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
@@ -397,9 +401,9 @@
         
         .photo-container img { width: 100%; height: 100%; object-fit: cover; }
         .bar {
-            width: 5%; margin: 0 1.5%; background-color: var(--primary-color); height: 0; 
+            width: 5%; margin: 0 1.5%; background-color: #0ff; height: 0; 
             transition: height 0.8s ease-out; border-radius: 2px 2px 0 0;
-            box-shadow: 0 0 5px var(--primary-color);
+            box-shadow: 0 0 5px #0ff;
         }
         
         /* NEW, RELIABLE ORBIT CSS */
@@ -408,14 +412,14 @@
             width: 50px; 
             height: 50px; 
             background-color: #111;
-            color: var(--primary-color); 
-            border: 1px solid var(--primary-color); 
+            color: #0ff; 
+            border: 1px solid #0ff; 
             display: flex;
             align-items: center; 
             justify-content: center; 
             font-size: 1.5rem;
             border-radius: 50%; 
-            box-shadow: 0 0 10px var(--primary-color); 
+            box-shadow: 0 0 10px #0ff; 
             transition: 0.3s;
             top: 50%; 
             left: 50%;
@@ -432,7 +436,7 @@
                 /* 4. Center the icon circle on the translation point */
                 translate(-50%, -50%); 
         }
-        .skill-icon:hover { background-color: var(--primary-color); color: #111; box-shadow: 0 0 20px #fff; }
+        .skill-icon:hover { background-color: #0ff; color: #111; box-shadow: 0 0 20px #fff; }
 
         /* Rotational Positions for 11 Icons (360 / 11 = 32.727 degrees apart) */
         .icon-html { --rotation: 0deg; } 
@@ -452,8 +456,8 @@
         /* 3. ABOUT SECTION                     */
         /* ==================================== */
         .about-container { display:flex; flex-wrap:wrap; align-items:center; gap:40px; justify-content:center; margin-top: 40px; }
-        .about-photo-wrapper { width: 250px; height: 250px; position: relative; border-radius: 50%; overflow: hidden; border: 5px solid var(--primary-color); box-shadow: 0 0 30px rgba(0, 255, 255, 0.8); transition: box-shadow 0.5s; }
-        .about-photo-wrapper:hover { box-shadow: 0 0 50px var(--primary-color); }
+        .about-photo-wrapper { width: 250px; height: 250px; position: relative; border-radius: 50%; overflow: hidden; border: 5px solid #0ff; box-shadow: 0 0 30px rgba(0, 255, 255, 0.8); transition: box-shadow 0.5s; }
+        .about-photo-wrapper:hover { box-shadow: 0 0 50px #0ff; }
         .about-photo-wrapper .image-stack { width: 100%; height: 100%; position: relative; transition: transform 0.5s ease-out; }
         .about-photo-wrapper img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.5s; }
         .about-photo-wrapper img:first-child { opacity: 1; }
@@ -478,30 +482,30 @@
             animation: imageCycle 4s infinite 3s;
         }
 
-        .about-text { max-width:600px; padding:30px; background: rgba(0,255,255,0.05); border:1px solid var(--primary-color); border-radius:15px; text-align:left; box-shadow:0 0 20px rgba(0, 255, 255, 0.5); transition: box-shadow 0.5s;}
-        .about-text:hover { box-shadow:0 0 40px var(--primary-color); }
-        .about-text h2 { margin-top: 0; margin-bottom: 15px; font-size: 2.2rem; color: var(--primary-color); text-shadow: none; }
+        .about-text { max-width:600px; padding:30px; background: rgba(0,255,255,0.05); border:1px solid #0ff; border-radius:15px; text-align:left; box-shadow:0 0 20px rgba(0, 255, 255, 0.5); transition: box-shadow 0.5s;}
+        .about-text:hover { box-shadow:0 0 40px #0ff; }
+        .about-text h2 { margin-top: 0; margin-bottom: 15px; font-size: 2.2rem; color: #0ff; text-shadow: none; }
 
         /* ==================================== */
         /* 4. SKILLS SECTION                    */
         /* ==================================== */
         #skills .skills-grid { max-width: 900px; margin-top: 40px; display:flex; flex-wrap:wrap; gap: 50px 60px; justify-content:center; }
         .skill-wrapper { position: relative; display: inline-block; perspective: 1000px; margin: 15px 0; }
-        .skill { position: relative; width: 200px; height: 70px; display: flex; align-items: center; justify-content: center; padding: 0 25px; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,255,255,0.05)); border: 1px solid var(--primary-color); border-radius: 8px; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); font-size: 1.3rem; font-weight: 500; cursor: pointer; overflow: hidden; box-shadow: 0 0 12px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0,255,255,0.1); z-index: 2;}
-        .skill:hover { background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,255,255,0.1)); box-shadow: 0 0 25px var(--primary-color); transform: translateY(-5px); }
-        .skill-name { color: #fff; text-shadow: 0 0 8px var(--primary-color); transition: text-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .skill:hover .skill-name { text-shadow: 0 0 20px #fff, 0 0 30px var(--primary-color); }
+        .skill { position: relative; width: 200px; height: 70px; display: flex; align-items: center; justify-content: center; padding: 0 25px; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,255,255,0.05)); border: 1px solid #0ff; border-radius: 8px; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); font-size: 1.3rem; font-weight: 500; cursor: pointer; overflow: hidden; box-shadow: 0 0 12px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.1); z-index: 2;}
+        .skill:hover { background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,255,255,0.1)); box-shadow: 0 0 25px #0ff, 0 0 40px rgba(0,255,255,0.4); transform: translateY(-5px); }
+        .skill-name { color: #fff; text-shadow: 0 0 8px #0ff; transition: text-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .skill:hover .skill-name { text-shadow: 0 0 20px #fff, 0 0 30px #0ff; }
         .skill-icon-container { position: absolute; top: -15px; right: -30px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0,0,0,0.8); border: 2px solid rgba(0, 255, 255, 0.1); box-shadow: none; opacity: 0; transform: translate(15px, 0) scale(0.6) rotate(-45deg); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 3;}
-        .skill-wrapper:hover .skill-icon-container { background: rgba(0,0,0,0.8); border: 2px solid var(--primary-color); box-shadow: 0 0 25px var(--primary-color); opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+        .skill-wrapper:hover .skill-icon-container { background: rgba(0,0,0,0.8); border: 2px solid #0ff; box-shadow: 0 0 25px #0ff, 0 0 40px rgba(0,255,255,0.5); opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
         .skill-icon-container i { font-size: 2.2rem; color: rgba(0,255,255,0.3); text-shadow: none; transition: color 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        .skill-wrapper:hover .skill-icon-container i { color: var(--primary-color); text-shadow: 0 0 15px var(--primary-color); }
+        .skill-wrapper:hover .skill-icon-container i { color: #0ff; text-shadow: 0 0 15px #0ff; }
 
         /* ==================================== */
         /* 5. PROJECTS SECTION                  */
         /* ==================================== */
         .projects-grid { display:flex; flex-wrap:wrap; gap:40px; justify-content:center; }
         .project-card { width: 320px; min-height: 450px; position: relative; z-index: 1; overflow: hidden; background: rgba(0,255,255,0.03); border: 1px solid rgba(0,255,255,0.2); border-radius:15px; padding: 0; text-align:center; transition: all 0.4s ease-out; box-shadow: 0 0 8px rgba(0, 255, 255, 0.2); cursor: pointer; }
-        .project-card:hover { transform: translateY(-10px); border-color: var(--primary-color); box-shadow: 0 0 25px var(--primary-color); }
+        .project-card:hover { transform: translateY(-10px); border-color: #0ff; box-shadow: 0 0 25px #0ff, 0 0 45px rgba(0, 255, 255, 0.5); }
         .project-visual { width: 100%; height: 180px; background: #111; border-top-left-radius: 15px; border-top-right-radius: 15px; position: relative; overflow: hidden; }
         .project-visual img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.4s ease; }
         .project-card:hover .project-visual img { opacity: 1; }
@@ -510,21 +514,21 @@
         .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient( 90deg, transparent, rgba(0, 255, 255, 0.5) 30%, transparent 70% ); opacity: 0; transform: skewX(-30deg) translateX(-150%); transition: opacity 0.5s; z-index: 2; }
         .project-card:hover::before { opacity: 1; animation: codeScan 1.5s infinite linear; }
         .project-card * { position: relative; z-index: 3; }
-        .project-card h3 { font-size: 1.8rem; margin-bottom: 10px; color: #fff; text-shadow: 0 0 8px var(--primary-color); transition: text-shadow 0.4s; }
-        .project-card:hover h3 { text-shadow: 0 0 20px #fff, 0 0 30px var(--primary-color); }
+        .project-card h3 { font-size: 1.8rem; margin-bottom: 10px; color: #fff; text-shadow: 0 0 8px #0ff; transition: text-shadow 0.4s; }
+        .project-card:hover h3 { text-shadow: 0 0 20px #fff, 0 0 30px #0ff; }
         
         /* ==================================== */
         /* 6. CERTIFICATIONS SECTION            */
         /* ==================================== */
-        .btn-verify { display:inline-block; padding:8px 15px; border:1px solid var(--primary-color); color:#111; border-radius:5px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s ease; text-transform: uppercase; background: var(--primary-color); box-shadow: 0 0 10px var(--primary-color); }
-        .btn-verify:hover { background: var(--secondary-color); box-shadow: 0 0 25px var(--primary-color); transform: translateY(-1px); }
+        .btn-verify { display:inline-block; padding:8px 15px; border:1px solid #0ff; color:#111; border-radius:5px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s ease; text-transform: uppercase; background: #0ff; box-shadow: 0 0 10px #0ff; }
+        .btn-verify:hover { background: #00cccc; box-shadow: 0 0 25px #0ff; transform: translateY(-1px); }
         .certifications-grid { display:flex; flex-wrap:wrap; gap:30px; justify-content:center; }
         .cert-card { width: 350px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; background: rgba(0,255,255,0.03); border: 1px solid rgba(0,255,255,0.2); border-radius:15px; padding: 30px; text-align:center; transition: all 0.4s ease-out; box-shadow: 0 0 8px rgba(0, 255, 255, 0.2); cursor: pointer; }
-        .cert-card:hover { transform: translateY(-8px); border-color: var(--primary-color); box-shadow: 0 0 30px var(--primary-color); }
-        .cert-content h3 { font-size: 1.4rem; margin-bottom: 5px; margin-top: 15px; color: #fff; text-shadow: 0 0 10px var(--primary-color); }
-        .cert-icon { font-size: 3.5rem; color: var(--primary-color); margin-bottom: 10px; text-shadow: 0 0 15px var(--primary-color); transition: all 0.4s ease; }
+        .cert-card:hover { transform: translateY(-8px); border-color: #0ff; box-shadow: 0 0 30px #0ff; }
+        .cert-content h3 { font-size: 1.4rem; margin-bottom: 5px; margin-top: 15px; color: #fff; text-shadow: 0 0 10px #0ff; }
+        .cert-icon { font-size: 3.5rem; color: #0ff; margin-bottom: 10px; text-shadow: 0 0 15px #0ff; transition: all 0.4s ease; }
         .cert-card:hover .cert-icon { transform: scale(1.1); text-shadow: 0 0 30px #fff; }
-        .issuer { color: var(--primary-color); font-weight: 500; }
+        .issuer { color: #0ff; font-weight: 500; }
         .date { font-size: 0.9rem; color: #aaa; margin-top: 5px; margin-bottom: 20px; }
         @keyframes chargeGlow { 0% { transform: rotate(0deg); opacity: 0.5; } 50% { opacity: 0.8; } 100% { transform: rotate(360deg); opacity: 0.5; } }
         .cert-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient( transparent 0%, rgba(0, 255, 255, 0.5) 30%, transparent 70% ); opacity: 0; transition: opacity 0.4s ease; z-index: 0; }
@@ -536,19 +540,19 @@
         /* ==================================== */
          #contact { min-height: 80vh; }
         .contact-container { display: flex; gap: 60px; align-items: flex-start; justify-content: center; width: 100%; background: #0a0a0a; padding: 50px; border-radius: 12px; border: 1px solid #222; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.05); }
-        .contact-form { flex: 2; max-width: 650px; background: #000; border: 1px solid #1a1a1a; padding: 30px; border-radius: 10px; position: relative; border-top: 4px solid var(--primary-color); box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1); }
+        .contact-form { flex: 2; max-width: 650px; background: #000; border: 1px solid #1a1a1a; padding: 30px; border-radius: 10px; position: relative; border-top: 4px solid #0ff; box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1); }
         .form-group { margin-bottom: 25px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; color: #fff; font-weight: 500; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
         .form-group input, .form-group textarea { width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1rem; transition: all 0.2s ease-in-out; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 20px var(--primary-color); background: #000; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #0ff; box-shadow: 0 0 20px #0ff; background: #000; }
         .form-group textarea { resize: vertical; min-height: 180px; }
         .contact-info { flex: 1; max-width: 400px; text-align: left; padding-top: 20px; }
         .contact-info h3 { margin-bottom: 40px; }
         .contact-item { display: flex; align-items: center; margin-bottom: 35px; transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .contact-item:hover { transform: translateX(8px); }
         .contact-item a { display: flex; align-items: center; color: #fff; transition: color 0.3s ease; width: 100%; padding: 5px 0; }
-        .contact-item a:hover { color: var(--primary-color); text-shadow: 0 0 10px var(--primary-color); }
-        .contact-item i { font-size: 2.2rem; color: var(--primary-color); margin-right: 20px; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); min-width: 30px; }
+        .contact-item a:hover { color: #0ff; text-shadow: 0 0 10px #0ff; }
+        .contact-item i { font-size: 2.2rem; color: #0ff; margin-right: 20px; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); min-width: 30px; }
         .contact-details span { font-size: 1.1rem; font-weight: 400; color: #ccc; }
         
         /* ==================================== */
@@ -570,7 +574,7 @@
 
         .success-box {
             background: #0a0a0a;
-            border: 2px solid var(--primary-color);
+            border: 2px solid #0ff;
             border-radius: 15px;
             padding: 40px 60px;
             text-align: center;
@@ -580,16 +584,16 @@
 
         .success-icon {
             font-size: 4rem;
-            color: var(--primary-color);
+            color: #0ff;
             margin-bottom: 20px;
-            text-shadow: 0 0 15px var(--primary-color);
+            text-shadow: 0 0 15px #0ff;
         }
 
         .success-box h3 {
             font-size: 2.5rem;
             margin-bottom: 15px;
             color: #fff;
-            text-shadow: 0 0 10px var(--primary-color);
+            text-shadow: 0 0 10px #0ff;
         }
 
         .success-box p {
@@ -619,13 +623,15 @@
 
         /* 900px: Mobile Layout Activation */
         @media(max-width:900px){
+            /* Mobile Layout Overrides */
+
             /* Sidebar Collapse */
             #sidebar {
                 left: -300px; 
                 width: 250px;
                 background: rgba(0, 0, 0, 0.98);
                 padding-top: 80px;
-                border-right: 2px solid var(--primary-color);
+                border-right: 2px solid #0ff;
                 z-index: 105; /* Ensure it is over the main content */
             }
             #sidebar.open {
@@ -645,13 +651,13 @@
                 top: 20px;
                 left: 20px;
                 z-index: 110; /* Ensure it is above the sidebar */
-                color: var(--primary-color);
+                color: #0ff;
                 font-size: 1.8rem;
                 cursor: pointer;
                 width: 50px;
                 height: 50px;
                 background: rgba(0, 0, 0, 0.7);
-                border: 1px solid var(--primary-color);
+                border: 1px solid #0ff;
                 border-radius: 5px;
                 align-items: center;
                 justify-content: center;
@@ -667,19 +673,7 @@
             
             /* Home */
             #home { padding: 80px 20px; }
-            /* MOBILE-SPECIFIC FIXES: reserve more vertical space and reduce min-width */
-            .hero-text-area h1 {
-                /* mobile reserve - prevents reflow while typing */
-                min-height: 3.6rem;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-            .typed-text {
-                min-width: 18ch; /* narrower on mobile so it fits but still reserves space */
-                max-width: calc(100% - 30px);
-            }
-            
-            .hero-text-area h1 { font-size: 2.0rem; text-align: left; }
+            .hero-text-area h1 { font-size: 3rem; }
             
             /* General Layout */
             .about-container { flex-direction: column; }
@@ -691,13 +685,10 @@
         @media(max-width:600px){
            h2 { font-size: 2.2rem; margin-bottom: 30px; }
             .hero-text-area h1 { 
-                font-size: 1.9rem; 
-                /* ensure enough reserved vertical space to avoid jumps */
-                min-height: 3.8rem; /* increased to keep multi-line issues from moving page */
-                white-space: nowrap;
-                overflow: hidden;
+                font-size: 2.2rem; 
+                min-height: 5.5rem; /* NEW FIX: Reserves space to prevent page jump during typing */
             }
-            .typed-cursor { font-size: 1.9rem; height:1.8rem; }
+            .typed-cursor { font-size: 2.2rem; }
             #intro-text { font-size: 1.2rem; }
             .btn { padding: 10px 20px; font-size: 1rem; margin-right: 10px; }
             .button-group { display: flex; flex-direction: column; gap: 15px; }
@@ -711,6 +702,10 @@
             .success-box { padding: 30px; }
             .success-box h3 { font-size: 1.8rem; }
         }
+
+        /* Ensure inputs won't trigger mobile zoom (font-size >= 16px) */
+        input, textarea, select { font-size: 16px; }
+
     </style>
 </head>
 <body>
@@ -719,17 +714,16 @@
 
     <nav id="sidebar">
         <div class="profile-photo">
-            <!-- If you prefer local assets, replace this path with ./assets/sathish.jpg -->
-            <img src="C:\Users\sathi\OneDrive\Desktop\portfolio\sathish.jpg" alt="Sathish K Profile">
+            <img src="C:\\Users\\sathi\\OneDrive\\Desktop\\portfolio\\sathish.jpg" alt="Sathish K Profile">
         </div>
         <h3 class="profile-name">Sathish K</h3>
         <p class="profile-title">Full Stack Developer</p>
 
         <div class="sidebar-social-icons" style="margin-bottom: 30px;">
-            <a href="https://github.com/sathish-k2005" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/sathish-k2005?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
-            <a href="https://www.instagram.com/sathish_kuppan_?igsh=MXFtbWF4aG55ZGF0Yg==" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com/sathishkuppan01" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://github.com/sathish-k2005" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/sathish-k2005?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/sathish_kuppan_?igsh=MXFtbWF4aG55ZGF0Yg==" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/sathishkuppan01" target="_blank"><i class="fab fa-x-twitter"></i></a>
         </div>
         
         <div id="navLinks">
@@ -748,34 +742,33 @@
                 <div class="hero-grid">
                     <div class="hero-text-area">
                         <p id="intro-text">Hello, I'm Sathish K</p>
-                        <h1>
+                        <h1 id="heroHeading">
                             I am a 
-                            <span class="typed-text" aria-live="polite"></span>
-                            <span class="typed-cursor" aria-hidden="true">|</span>
+                            <span class="typed-text"></span>
+                            <span class="typed-cursor">|</span>
                         </h1>
                         <p style="margin-bottom: 15px;">
                            “Rise after every fall; each failure is a lesson shaping your path to success and proving your strength to the world and yourself.”
-                        </p>
-                        <div class="button-group" style="margin-top:8px;">
+                        <div class="button-group">
                             <a href="#contact" class="btn">Let's Connect</a>
                             <a href="./assets/Sathishresume.pdf" target="_blank" class="btn btn-secondary">View Resume</a>
                         </div>
                     </div>
                     
-                    <div class="hero-visual-area" aria-hidden="true">
-                        <div class="animated-graphic-container" aria-hidden="true">
-                            <div class="skill-orbit-container" id="skill-orbit-container" aria-hidden="true">
-                                <div class="skill-icon icon-html" title="HTML"><i class="fab fa-html5"></i></div>
-                                <div class="skill-icon icon-css" title="CSS"><i class="fab fa-css3-alt"></i></div>
-                                <div class="skill-icon icon-js" title="JavaScript"><i class="fab fa-js-square"></i></div>
-                                <div class="skill-icon icon-bootstrap" title="Bootstrap"><i class="fab fa-bootstrap"></i></div>
-                                <div class="skill-icon icon-python" title="Python"><i class="fab fa-python"></i></div>
-                                <div class="skill-icon icon-java" title="Java"><i class="fab fa-java"></i></div>
-                                <div class="skill-icon icon-mongodb" title="MongoDB"><i class="fas fa-database"></i></div>
-                                <div class="skill-icon icon-ai-ml" title="AI & ML"><i class="fas fa-brain"></i></div>
-                                <div class="skill-icon icon-data-analytics" title="Data Analytics"><i class="fas fa-chart-line"></i></div>
-                                <div class="skill-icon icon-powerbi" title="Power BI"><i class="fas fa-chart-pie"></i></div>
-                                <div class="skill-icon icon-problem" title="Problem Solving"><i class="fas fa-lightbulb"></i></div>
+                    <div class="hero-visual-area">
+                        <div class="animated-graphic-container">
+                            <div class="skill-orbit-container" id="skill-orbit-container">
+                                <div class="skill-icon icon-html"><i class="fab fa-html5"></i></div>
+                                <div class="skill-icon icon-css"><i class="fab fa-css3-alt"></i></div>
+                                <div class="skill-icon icon-js"><i class="fab fa-js-square"></i></div>
+                                <div class="skill-icon icon-bootstrap"><i class="fab fa-bootstrap"></i></div>
+                                <div class="skill-icon icon-python"><i class="fab fa-python"></i></div>
+                                <div class="skill-icon icon-java"><i class="fab fa-java"></i></div>
+                                <div class="skill-icon icon-mongodb"><i class="fas fa-database"></i></div>
+                                <div class="skill-icon icon-ai-ml"><i class="fas fa-brain"></i></div>
+                                <div class="skill-icon icon-data-analytics"><i class="fas fa-chart-line"></i></div>
+                                <div class="skill-icon icon-powerbi"><i class="fas fa-chart-pie"></i></div>
+                                <div class="skill-icon icon-problem"><i class="fas fa-lightbulb"></i></div>
                             </div>
                             <div class="photo-container" id="photo-container">
                                 <div>
@@ -790,7 +783,7 @@
                                     <div class="bar" data-height="95"></div>
                                     <div class="bar" data-height="70"></div>
                                 </div>
-                                <img src="C:\Users\sathi\OneDrive\Desktop\portfolio\sathish.jpg" alt="My Profile Photo">
+                                <img src="C:\\Users\\sathi\\OneDrive\\Desktop\\portfolio\\sathish.jpg" alt="My Profile Photo">
                             </div>
                         </div>
                     </div>
@@ -803,19 +796,19 @@
                 
                 <div class="about-container">
                     <div class="about-photo-wrapper">
-                        <div class="image-stack" id="imageStack">
+                        <div class="image-stack">
                             <img src="./assets/sathish.jpg" alt="Sathish K - Default Photo">
-                            <img src="./assets/sathish4.jpg" alt="Sathish K - Second Photo" class="hide">
-                            <img src="./assets/sathish2.jpg" alt="Sathish K - Third Photo" class="hide">
-                            <img src="./assets/sathish3.jpg" alt="Sathish K - Fourth Photo" class="hide">
+                            <img src="./assets/sathish4.jpg" alt="Sathish K - Second Photo">
+                            <img src="./assets/sathish2.jpg" alt="Sathish K - Third Photo">
+                            <img src="./assets/sathish3.jpg" alt="Sathish K - Fourth Photo">
                         </div>
                     </div>
                     <div class="about-text">
                         <p>
-                            I am a passionate and dedicated B.Sc. Computer Science student at VIT Vellore with a strong foundation in programming, web technologies, and data-driven solutions. My interests lie in <strong>full stack development, artificial intelligence, and machine learning</strong>, where I enjoy transforming ideas into functional and innovative digital solutions.
+                            I am a passionate and dedicated B.Sc. Computer Science student at VIT Vellore with a strong foundation in programming, web technologies, and data-driven solutions. My interests lie in **full stack development, artificial intelligence, and machine learning**, where I enjoy transforming ideas into functional and innovative digital solutions.
                         </p>
                         <p style="margin-top: 15px;">
-                            With hands-on experience in developing web applications using <strong>HTML, CSS, JavaScript, React, Node.js, and MongoDB</strong>, I aim to create seamless, responsive, and user-friendly interfaces. Additionally, I have explored data analytics and predictive modeling through projects that involve algorithms such as <strong>LSTM, ARIMA, and Prophet</strong> for trend prediction.
+                            With hands-on experience in developing web applications using **HTML, CSS, JavaScript, React, Node.js, and MongoDB**, I aim to create seamless, responsive, and user-friendly interfaces. Additionally, I have explored data analytics and predictive modeling through projects that involve algorithms such as **LSTM, ARIMA, and Prophet** for trend prediction.
                         </p>
                         <p style="margin-top: 15px;">
                             I am a continuous learner who thrives in collaborative environments, always eager to enhance my technical expertise and explore emerging technologies. My goal is to contribute to impactful projects that combine creativity, technology, and analytical thinking to solve real-world challenges.
@@ -896,7 +889,7 @@
                     </div>
                     <div class="cert-card">
                         <div class="cert-icon"><i class="fas fa-laptop-code"></i></div>
-                        <h3>Digital Marketing & Web Development Internship</h3>
+                        <h3>Digital Marketing & Web Development Intenship</h3>
                         <p class="issuer">iStudio TECHNOLOGIES</p>
                         <p class="date">Issued: Jul 2025</p>
                         <div class="cert-action"><a href="https://drive.google.com/file/d/1vcsaezR5StSXVGEXiuLw7asVvf2w1Ri7/view?usp=drivesdk" target="_blank" class="btn-verify">View Certificate</a></div>
@@ -966,6 +959,8 @@
             sidebar.classList.toggle('open');
             menuIcon.classList.toggle('fa-bars'); 
             menuIcon.classList.toggle('fa-times'); 
+            // lock body scroll on open to avoid layout shift
+            document.body.classList.toggle('nav-open', sidebar.classList.contains('open'));
         }
 
         // --- Typing Effect (from Home section) ---
@@ -988,7 +983,6 @@
         function type() {
             if (!typedTextElement) return; 
             if (charIndex < texts[textIndex].length) {
-                // append character
                 typedTextElement.textContent += texts[textIndex].charAt(charIndex);
                 charIndex++;
                 setTimeout(type, typingSpeed);
@@ -1012,7 +1006,51 @@
             }
         }
 
-         // --- Home Visual Animation ---
+        // --- Reserve width for typing to prevent page moving on mobile ---
+        function reserveTypingWidth(){
+            const heroH1 = document.getElementById('heroHeading');
+            const typed = document.querySelector('.typed-text');
+            if(!heroH1 || !typed) return;
+
+            // get computed font for accurate measurement
+            const computed = window.getComputedStyle(heroH1);
+            const font = [computed.fontStyle, computed.fontVariant, computed.fontWeight, computed.fontSize, computed.fontFamily].filter(Boolean).join(' ');
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.font = font;
+
+            // measure widest combined width of static text + phrase
+            const staticText = 'I am a ';
+            let maxPx = 0;
+            texts.forEach(t => {
+                const full = staticText + t;
+                const w = Math.ceil(ctx.measureText(full).width);
+                if(w > maxPx) maxPx = w;
+            });
+            // add padding for cursor and breathing room
+            maxPx += 36;
+
+            // clamp so it never exceeds viewport width minus margin
+            const viewportMax = Math.max(100, Math.floor(window.innerWidth - 40));
+            const finalPx = Math.min(maxPx, viewportMax);
+
+            // apply as min-width on the h1 to reserve space
+            heroH1.style.minWidth = finalPx + 'px';
+            heroH1.style.whiteSpace = 'nowrap';
+
+            // ensure typed-text won't wrap
+            typed.style.whiteSpace = 'nowrap';
+            typed.style.display = 'inline-block';
+
+            // adjust on resize
+            window.addEventListener('resize', () => {
+                const vp = Math.max(100, Math.floor(window.innerWidth - 40));
+                heroH1.style.minWidth = Math.min(maxPx, vp) + 'px';
+            });
+        }
+
+        // --- Home Visual Animation ---
         const bars = document.querySelectorAll('.bar');
         const photoContainer = document.getElementById('photo-container');
         const skillOrbitContainer = document.getElementById('skill-orbit-container');
@@ -1029,15 +1067,15 @@
         }
 
         function resetAnimation(element, animationName) {
-            if (!element) return;
+            if(!element) return;
             element.style.animation = 'none';
             element.offsetHeight; 
             element.style.animation = animationName;
         }
 
         function runVisualAnimation() {
-            if (photoContainer) resetAnimation(photoContainer, 'photoFlyIn 1.5s ease-out forwards 0.8s');
-            if (skillOrbitContainer) resetAnimation(skillOrbitContainer, 'orbitFlyIn 1.5s ease-out forwards, spin 20s linear infinite');
+            resetAnimation(photoContainer, 'photoFlyIn 1.5s ease-out forwards 0.8s');
+            resetAnimation(skillOrbitContainer, 'orbitFlyIn 1.5s ease-out forwards, spin 20s linear infinite');
             runBarAnimation();
             homeAnimationRun = true;
         }
@@ -1061,10 +1099,12 @@
         // --- Success Modal Logic ---
         function showSuccessOverlay() {
             document.getElementById('successOverlay').style.display = 'flex';
+            document.body.classList.add('modal-open');
         }
 
         function closeSuccessOverlay() {
             document.getElementById('successOverlay').style.display = 'none';
+            document.body.classList.remove('modal-open');
         }
 
 
@@ -1115,7 +1155,7 @@
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
+                if (link.href.includes(current)) {
                     link.classList.add('active');
                 }
             });
@@ -1124,21 +1164,21 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize EmailJS with your Public Key (vdZC4c4_myQ5nnRme)
             (function () {
-                try {
-                    emailjs.init("vdZC4c4_myQ5nnRme"); 
-                } catch(e) {
-                    console.warn("EmailJS init error", e);
-                }
+                try{ emailjs.init("vdZC4c4_myQ5nnRme"); } catch(e){ console.warn('EmailJS init failed', e); }
             })();
             
             // Start the animations and typing effect
-            setTimeout(type, newTextDelay); 
+            setTimeout(type, newTextDelay);
             runVisualAnimation();
+
+            // Reserve typing width so changing typed phrases doesn't move the page on mobile
+            reserveTypingWidth();
 
             // Event listeners
             window.addEventListener('scroll', updateActiveLink);
             window.addEventListener('scroll', checkHomeSection); 
             window.addEventListener('hashchange', checkHomeSection); 
+            window.addEventListener('resize', reserveTypingWidth);
             
             updateActiveLink(); 
 
@@ -1149,26 +1189,6 @@
                     if (window.innerWidth <= 900) { toggleMenu(); }
                 });
             });
-
-            // Image stack hover (mobile friendly)
-            const imageStack = document.getElementById('imageStack');
-            if (imageStack) {
-                const imgs = Array.from(imageStack.querySelectorAll('img'));
-                let intervalId = null;
-                imageStack.addEventListener('mouseenter', () => {
-                    let idx = 0;
-                    imgs.forEach((im,i)=> im.style.opacity = (i===0? "1" : "0"));
-                    intervalId = setInterval(()=>{
-                        imgs.forEach((im,i)=> im.style.opacity = "0");
-                        imgs[idx].style.opacity = "1";
-                        idx = (idx + 1) % imgs.length;
-                    }, 900);
-                });
-                imageStack.addEventListener('mouseleave', () => {
-                    if(intervalId) clearInterval(intervalId);
-                    imgs.forEach((im,i)=> im.style.opacity = (i===0? "1" : "0"));
-                });
-            }
         });
     </script>
 </body>
