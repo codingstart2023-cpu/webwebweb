@@ -133,16 +133,16 @@
         }
         
         .profile-photo img {
-          display: block; /* Ensures dimensions are respected */
-          width: 90px;
-          height: 90px;
-          border-radius: 50%; /* Makes it a circle */
-          border: 4px solid var(--primary-color);
-          box-shadow: 0 0 20px var(--primary-color);
-          object-fit: cover; /* Ensures image isn't stretched */
-          margin-bottom: 15px;
-          transition: box-shadow 0.3s;
-          background-color: #000; /* Fallback background if image fails */
+           display: block; 
+           width: 90px;
+           height: 90px;
+           border-radius: 50%;
+           border: 4px solid var(--primary-color);
+           box-shadow: 0 0 20px var(--primary-color);
+           object-fit: cover;
+           margin-bottom: 15px;
+           transition: box-shadow 0.3s;
+           background-color: #000;
         }
 
          .profile-photo img:hover {
@@ -180,7 +180,6 @@
             text-shadow: 0 0 10px var(--primary-color);
         }
 
-        /* Navigation Links */
         #navLinks {
             display: flex;
             flex-direction: column;
@@ -221,7 +220,7 @@
         }
 
         /* ==================================== */
-        /* 3. HOME SECTION                      */
+        /* 3. HOME SECTION & TYPING FIX         */
         /* ==================================== */
         #home {
             padding-left: 5%;
@@ -249,55 +248,51 @@
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        /* --- TYPING ANIMATION STYLES (SINGLE LINE FIX) --- */
-        
-        /* 1. Main Container: Forces items to sit side-by-side */
+        /* --- STABILIZED TYPING CONTAINER --- */
         .typing-container {
             display: flex;
-            align-items: center;  /* Vertically aligns text */
-            justify-content: flex-start; /* Aligns to the left */
-            gap: 10px; /* Space between "I am a" and the typed text */
-            flex-wrap: nowrap; /* CRITICAL: This forces them to stay on one line */
-            width: 100%;
-            overflow: hidden; /* Safety to prevent scrollbars */
+            align-items: center;
+            justify-content: flex-start; /* Always aligned left inside the box */
+            gap: 10px;
+            flex-wrap: nowrap;
+            
+            /* FIXED WIDTH BOX STRATEGY */
+            width: fit-content;      
+            min-width: 650px; /* Reserves space so it doesn't shrink/grow */
+            
             margin-bottom: 20px;
+            overflow: visible; /* Allows text to spill if needed */
         }
 
-        /* 2. Static Text ("I am a") */
         .static-text {
             margin: 0;
             padding: 0;
-            color: #fff; /* White color */
+            color: #fff;
             font-size: 3rem; 
             font-weight: 700;
             line-height: 1;
-            white-space: nowrap; /* Prevents "I am a" from breaking */
+            white-space: nowrap;
         }
 
-        /* 3. Wrapper for typed part */
         .dynamic-wrapper {
             display: flex;
             align-items: center;
         }
 
-        /* 4. Typed Text ("Technology...") */
         .typed-text {
-            color: #0ff; /* Neon Cyan */
-            font-size: 2rem; 
+            color: #0ff;
+            font-size: 3rem; 
             font-weight: 700;
             line-height: 1;
-            white-space: nowrap; /* Prevents typed text from breaking */
-            
-            /* The Glow Effect */
+            white-space: nowrap;
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 
                          0 0 20px rgba(0, 255, 255, 0.5);
         }
 
-        /* 5. The Cursor */
         .cursor {
             display: inline-block;
             width: 3px;
-            height: 1rem;
+            height: 3rem;
             background-color: #0ff;
             margin-left: 5px;
             animation: blink 0.7s infinite;
@@ -308,10 +303,7 @@
             50% { opacity: 0; }
         }
 
-        /* --- END TYPING STYLES --- */
-
-
-        /* Hero Visual Graphic */
+        /* Visual Graphic */
         .hero-visual-area {
              flex: 0 0 40%; 
             position: relative;
@@ -380,7 +372,7 @@
             height: 0; 
         }
         
-        /* Skill Orbit Ring */
+        /* Orbit CSS */
         .skill-orbit-container {
             position: absolute;
             top: 0;
@@ -401,7 +393,6 @@
             to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
           
-        /* Orbit CSS */
         .skill-icon {
             position: absolute; 
             width: 50px; 
@@ -418,18 +409,11 @@
             transition: 0.3s;
             top: 50%; 
             left: 50%;
-            
             --radius: 250px; 
-            
-            transform: 
-                translate(-50%, -50%) 
-                rotate(var(--rotation)) 
-                translate(var(--radius)) 
-                rotate(calc(-1 * var(--rotation)));
+            transform: translate(-50%, -50%) rotate(var(--rotation)) translate(var(--radius)) rotate(calc(-1 * var(--rotation)));
         }
         .skill-icon:hover { background-color: #0ff; color: #111; box-shadow: 0 0 20px #fff; }
 
-        /* Rotational Positions */
         .icon-html { --rotation: 0deg; } 
         .icon-css { --rotation: 32.727deg; }
         .icon-js { --rotation: 65.454deg; } 
@@ -441,10 +425,9 @@
         .icon-data-analytics { --rotation: 261.816deg; } 
         .icon-powerbi { --rotation: 294.543deg; } 
         .icon-problem { --rotation: 327.27deg; } 
-     
 
         /* ==================================== */
-        /* 4. ABOUT SECTION                     */
+        /* 4. OTHER SECTIONS (About, Skills...) */
         /* ==================================== */
         .about-container { display:flex; flex-wrap:wrap; align-items:center; gap:40px; justify-content:center; margin-top: 40px; }
         .about-photo-wrapper { width: 250px; height: 250px; position: relative; border-radius: 50%; overflow: hidden; border: 5px solid #0ff; box-shadow: 0 0 30px rgba(0, 255, 255, 0.8); transition: box-shadow 0.5s; }
@@ -469,9 +452,6 @@
         .about-text:hover { box-shadow:0 0 40px #0ff; }
         .about-text h2 { margin-top: 0; margin-bottom: 15px; font-size: 2.2rem; color: #0ff; text-shadow: none; }
 
-        /* ==================================== */
-        /* 5. SKILLS SECTION                    */
-        /* ==================================== */
         #skills .skills-grid { max-width: 900px; margin-top: 40px; display:flex; flex-wrap:wrap; gap: 50px 60px; justify-content:center; }
         .skill-wrapper { position: relative; display: inline-block; perspective: 1000px; margin: 15px 0; }
         .skill { position: relative; width: 200px; height: 70px; display: flex; align-items: center; justify-content: center; padding: 0 25px; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,255,255,0.05)); border: 1px solid #0ff; border-radius: 8px; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); font-size: 1.3rem; font-weight: 500; cursor: pointer; overflow: hidden; box-shadow: 0 0 12px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.1); z-index: 2;}
@@ -483,9 +463,6 @@
         .skill-icon-container i { font-size: 2.2rem; color: rgba(0,255,255,0.3); text-shadow: none; transition: color 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         .skill-wrapper:hover .skill-icon-container i { color: #0ff; text-shadow: 0 0 15px #0ff; }
 
-        /* ==================================== */
-        /* 6. PROJECTS SECTION                  */
-        /* ==================================== */
         .projects-grid { display:flex; flex-wrap:wrap; gap:40px; justify-content:center; }
         .project-card { width: 320px; min-height: 450px; position: relative; z-index: 1; overflow: hidden; background: rgba(0,255,255,0.03); border: 1px solid rgba(0,255,255,0.2); border-radius:15px; padding: 0; text-align:center; transition: all 0.4s ease-out; box-shadow: 0 0 8px rgba(0, 255, 255, 0.2); cursor: pointer; }
         .project-card:hover { transform: translateY(-10px); border-color: #0ff; box-shadow: 0 0 25px #0ff, 0 0 45px rgba(0, 255, 255, 0.5); }
@@ -500,9 +477,6 @@
         .project-card h3 { font-size: 1.8rem; margin-bottom: 10px; color: #fff; text-shadow: 0 0 8px #0ff; transition: text-shadow 0.4s; }
         .project-card:hover h3 { text-shadow: 0 0 20px #fff, 0 0 30px #0ff; }
         
-        /* ==================================== */
-        /* 7. CERTIFICATIONS SECTION            */
-        /* ==================================== */
         .btn-verify { display:inline-block; padding:8px 15px; border:1px solid #0ff; color:#111; border-radius:5px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s ease; text-transform: uppercase; background: #0ff; box-shadow: 0 0 10px #0ff; }
         .btn-verify:hover { background: #00cccc; box-shadow: 0 0 25px #0ff; transform: translateY(-1px); }
         .certifications-grid { display:flex; flex-wrap:wrap; gap:30px; justify-content:center; }
@@ -518,9 +492,6 @@
         .cert-card:hover::after { opacity: 1; animation: chargeGlow 2s linear infinite; }
         .cert-card * { position: relative; z-index: 1; }
 
-        /* ==================================== */
-        /* 8. CONTACT SECTION                   */
-        /* ==================================== */
          #contact { min-height: 80vh; }
         .contact-container { display: flex; gap: 60px; align-items: flex-start; justify-content: center; width: 100%; background: #0a0a0a; padding: 50px; border-radius: 12px; border: 1px solid #222; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.05); }
         .contact-form { flex: 2; max-width: 650px; background: #000; border: 1px solid #1a1a1a; padding: 30px; border-radius: 10px; position: relative; border-top: 4px solid #0ff; box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1); }
@@ -538,9 +509,6 @@
         .contact-item i { font-size: 2.2rem; color: #0ff; margin-right: 20px; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); min-width: 30px; }
         .contact-details span { font-size: 1.1rem; font-weight: 400; color: #ccc; }
         
-        /* ==================================== */
-        /* 9. SUCCESS MODAL OVERLAY             */
-        /* ==================================== */
         #successOverlay {
             position: fixed;
             top: 0;
@@ -591,7 +559,7 @@
         }
 
         /* ==================================== */
-        /* 10. RESPONSIVE DESIGN                */
+        /* RESPONSIVE DESIGN & DESKTOP MODE FIX */
         /* ==================================== */
 
         @media(max-width:1200px){
@@ -601,8 +569,11 @@
             .photo-container { width: 200px; height: 200px; border: 4px solid rgba(0, 255, 255, 0.5); }
             .skill-icon { width: 50px; height: 50px; }
             .skill-icon i { font-size: 1.8rem; }
-            /* Center the typing container on medium screens if text-align is center */
-            .typing-container { justify-content: center; }
+            
+            /* Center the typing block itself, but keep text inside aligned left */
+            .typing-container {
+                margin: 0 auto 20px auto; 
+            }
         }
 
         @media(max-width:900px){
@@ -648,25 +619,32 @@
             .about-container { flex-direction: column; }
             .contact-container { flex-direction: column; align-items: center; }
             .contact-form, .contact-info { max-width: 100%; width: 100%; }
+            
+            .typing-container {
+                min-width: 0; /* Reset strict width for pure mobile */
+                width: 100%;
+                justify-content: center; /* On pure mobile, center it normally */
+            }
         }
 
-        /* Responsive Text Scaling for Single-Line Typing */
+        /* Responsive Text Scaling */
         @media (max-width: 768px) {
             .static-text, .typed-text {
-                font-size: 1.8rem; /* Smaller font to fit on one line */
+                font-size: 1.8rem; 
             }
             .cursor {
                 height: 1.8rem;
             }
             .typing-container {
                 gap: 6px;
-                justify-content: center; /* keep centered on mobile */
+                min-width: 0;
+                justify-content: center;
             }
         }
 
         @media (max-width: 400px) {
             .static-text, .typed-text {
-                font-size: 1.4rem; /* Even smaller for tiny screens */
+                font-size: 1.4rem; 
             }
             .cursor {
                 height: 1.4rem;
@@ -1036,7 +1014,7 @@
             });
         }
 
-        // ---- NEW TYPING LOGIC (Matches your requested "one line" fix) ----
+        // ---- NEW TYPING LOGIC ----
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize EmailJS
             (function () {
