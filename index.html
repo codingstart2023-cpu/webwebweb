@@ -133,7 +133,7 @@
         }
         
         .profile-photo img {
-           display: block; 
+           display: block;
            width: 90px;
            height: 90px;
            border-radius: 50%;
@@ -220,7 +220,7 @@
         }
 
         /* ==================================== */
-        /* 3. HOME SECTION & TYPING FIX         */
+        /* 3. HOME SECTION & FIXED TYPING       */
         /* ==================================== */
         #home {
             padding-left: 5%;
@@ -248,20 +248,27 @@
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        /* --- STABILIZED TYPING CONTAINER --- */
+        /* --- ROCK SOLID TYPING CONTAINER --- */
         .typing-container {
+            /* Flex layout to keep items side-by-side */
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Always aligned left inside the box */
+            /* CRITICAL: Always align items to the START (Left) */
+            justify-content: flex-start; 
             gap: 10px;
             flex-wrap: nowrap;
             
-            /* FIXED WIDTH BOX STRATEGY */
-            width: fit-content;      
-            min-width: 650px; /* Reserves space so it doesn't shrink/grow */
+            /* FIXED DIMENSIONS STRATEGY */
+            /* We set a fixed width large enough for the longest text */
+            /* This ensures the container doesn't resize during typing */
+            width: 750px;       
+            max-width: 90vw; /* Responsive cap */
             
-            margin-bottom: 20px;
-            overflow: visible; /* Allows text to spill if needed */
+            /* Center the CONTAINER itself, but keep text LEFT aligned */
+            margin: 0 auto 20px 0; /* Default: Left margin 0 (Desktop) */
+            
+            height: 60px; /* Fixed height to prevent vertical jumps */
+            overflow: hidden; 
         }
 
         .static-text {
@@ -303,7 +310,7 @@
             50% { opacity: 0; }
         }
 
-        /* Visual Graphic */
+        /* Hero Visual Graphic */
         .hero-visual-area {
              flex: 0 0 40%; 
             position: relative;
@@ -570,7 +577,7 @@
             .skill-icon { width: 50px; height: 50px; }
             .skill-icon i { font-size: 1.8rem; }
             
-            /* Center the typing block itself, but keep text inside aligned left */
+            /* DESKTOP MODE FIX: Center the container, but keep text left aligned internally */
             .typing-container {
                 margin: 0 auto 20px auto; 
             }
@@ -620,10 +627,10 @@
             .contact-container { flex-direction: column; align-items: center; }
             .contact-form, .contact-info { max-width: 100%; width: 100%; }
             
+            /* PURE MOBILE: Just Center Everything */
             .typing-container {
-                min-width: 0; /* Reset strict width for pure mobile */
                 width: 100%;
-                justify-content: center; /* On pure mobile, center it normally */
+                justify-content: center; 
             }
         }
 
@@ -1014,7 +1021,7 @@
             });
         }
 
-        // ---- NEW TYPING LOGIC ----
+        // ---- NEW TYPING LOGIC (Matches your requested "one line" fix) ----
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize EmailJS
             (function () {
