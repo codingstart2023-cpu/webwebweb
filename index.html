@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sathish K - Full Stack Developer | AI/ML Enthusiast</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <style>
         /* ==================================== */
@@ -34,8 +36,9 @@
             background: var(--background-color);
             color: var(--text-color);
             line-height: 1.7;
-            /* Extra safety: if anything tries to cause horizontal scroll remove it */
+            /* CRITICAL: Prevents horizontal scroll/movement on mobile */
             overflow-x: hidden !important; 
+            width: 100%;
         }
 
         a {
@@ -43,9 +46,8 @@
             color: var(--primary-color);
         }
 
-        /* General Layout - Correction applied here */
+        /* General Layout */
         #main-content {
-            /* Desktop default: push content to the right of the sidebar */
             margin-left: var(--sidebar-width);
             transition: margin-left 0.4s ease;
         }
@@ -53,7 +55,7 @@
         section {
             min-height: 100vh;
             padding: 100px 5%;
-            padding-left: 5%; /* Adjusted for main content area padding */
+            padding-left: 5%; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -110,6 +112,7 @@
             color: var(--text-color);
             box-shadow: 0 0 20px var(--primary-color);
         }
+
         /* ==================================== */
         /* 2. SIDEBAR NAVIGATION & HOME SECTION */
         /* ==================================== */
@@ -134,15 +137,15 @@
            width: 90px;
             height: 90px;
             border-radius: 50%;
-            border: 4px solid var(--neon-color);
-            box-shadow: 0 0 20px var(--neon-color);
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-color);
             object-fit: cover;
             margin-bottom: 15px;
             transition: box-shadow 0.3s;
         }
 
          .profile-photo img:hover {
-            box-shadow: 0 0 30px #fff, 0 0 50px var(--neon-color);
+            box-shadow: 0 0 30px #fff, 0 0 50px var(--primary-color);
         }
 
         .profile-name {
@@ -157,7 +160,6 @@
             margin-bottom: 30px;
         }
 
-        /* FIX 1: Sidebar Social Icons Style */
         .sidebar-social-icons {
             display: flex;
             gap: 18px;
@@ -172,9 +174,9 @@
         }
 
         .sidebar-social-icons a:hover {
-             color: var(--neon-color);
+             color: var(--primary-color);
             transform: scale(1.1);
-            text-shadow: 0 0 10px var(--neon-color);
+            text-shadow: 0 0 10px var(--primary-color);
         }
 
         /* Navigation Links */
@@ -213,13 +215,13 @@
         }
 
         .menu-toggle {
-            display: none; /* Hidden by default on desktop */
+            display: none; 
             cursor: pointer;
         }
 
-        /* HOME SECTION SPECIFIC STYLES */
+        /* HOME SECTION */
         #home {
-            padding-left: 5%; /* Use relative padding */
+            padding-left: 5%;
             text-align: left; 
             align-items: flex-start;
         }
@@ -244,75 +246,74 @@
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        /* ---------------------------------------------------- */
-        /* --- NEW: ROBUST TYPING STYLES FROM YOUR REQUEST --- */
-        /* ---------------------------------------------------- */
-        /* --- Strong typing isolation to avoid layout reflow --- */
+        /* ======================================================= */
+        /* === ROBUST TYPING CSS (PREVENTS PAGE JUMP) ============ */
+        /* ======================================================= */
         .typing-wrapper {
-            display:inline-block;
-            position:relative;
-            vertical-align:middle;
-            /* fallback reserve to avoid any flash before JS runs */
-            min-width: 20ch;
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            /* Fallback minimum width */
+            min-width: 20ch; 
             max-width: 100%;
             overflow: visible;
         }
-        /* static text: keep in flow but don't let it wrap */
-        .hero-heading, #heroStatic {
-            display:inline-block;
-            margin:0;
-            padding:0;
-            white-space:nowrap;
-            vertical-align:middle;
-            font-weight:700;
-            line-height:1;
-            font-size: 1.4rem; /* Matching your original H1 size */
+
+        /* Target specific H1 inside the wrapper to override specificity */
+        .typing-wrapper h1.hero-heading, 
+        #heroStatic {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            vertical-align: middle;
+            font-weight: 700;
+            line-height: 1;
+            /* Use inherit to respect .hero-text-area h1 size */
+            font-size: inherit; 
             margin-bottom: 20px;
         }
-        /* typed area overlayed and not in flow */
+
         .typed-area {
-            position:absolute;
-            top:0;
-            bottom:0;
-            left:0;
-            right:0;
-            display:flex;
-            align-items:center;
-            gap:8px;
-            pointer-events:none;
-            overflow:hidden;            /* prevents scrollbars */
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            overflow: hidden; 
         }
-        /* typed text: never wrap, measured by JS */
+
         .typed-text {
-            white-space:nowrap;
-            display:inline-block;
-            min-width:0;
+            white-space: nowrap;
+            display: inline-block;
+            min-width: 0;
             will-change: contents, transform;
-            transform: translateZ(0);  /* avoid repaint thrash on mobile */
+            transform: translateZ(0); 
             color: var(--primary-color);
             font-weight: 700;
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-            font-size: 1.4rem; /* Matching original */
+            font-size: inherit; /* Inherit size from parent */
         }
-        /* ensure the cursor doesn't change flow */
+
         .typed-cursor { 
-            display:inline-block;
-            width:3px;
-            height:1.1rem;
-            background:var(--primary-color, #0ff);
-            margin-left:6px;
-            border-radius:2px;
+            display: inline-block;
+            width: 3px;
+            height: 1em; /* Scaled to font size */
+            background: var(--primary-color);
+            margin-left: 6px;
+            border-radius: 2px;
             animation: blink .7s infinite;
         }
         @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
 
-        /* On tiny screens reduce reserved width clamping */
         @media (max-width:420px){
             .typing-wrapper { min-width: 12ch; }
         }
-        /* ---------------------------------------------------- */
-        /* --- END NEW TYPING STYLES ------------------------- */
-        /* ---------------------------------------------------- */
+        /* ======================================================= */
 
         /* Hero Visual Graphic */
         .hero-visual-area {
@@ -325,27 +326,24 @@
         }
 
         .animated-graphic-container {
-            /* Positioned relative to .hero-visual-area */
             position: absolute;
-            width: 450px; /* Use 100% of parent for flexibility */
+            width: 450px; 
             height: 450px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            /* Ensure the absolute container does not break flow */
              display: flex;
             justify-content: center;
             align-items: center;
         }
         
-        /* Core Photo Container */
         .photo-container {
             width: 200px;
             height: 200px;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Centering */
+            transform: translate(-50%, -50%); 
             border-radius: 50%;
             overflow: hidden;
             border: 5px solid var(--primary-color);
@@ -363,7 +361,6 @@
             z-index: 12;
         }
 
-        /* Data Bars */
         .photo-container > div {
             position: absolute;
             top: 0;
@@ -401,49 +398,14 @@
             transform: scale(0);
             animation: orbitFlyIn 1.5s ease-out forwards, spin 20s linear infinite;
         }
-         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes orbitFlyIn { from { opacity: 0; transform: scale(0.5) rotate(0deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
-        
-        .photo-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); 
-            z-index: 3;
-            width: 200px; 
-            height: 200px;
-            border-radius: 50%; 
-            overflow: hidden;
-            opacity: 0; 
-            animation: photoFlyIn 1.5s ease-out forwards; 
-            animation-delay: 0.8s;
-        }
         @keyframes photoFlyIn { 
             from { opacity: 0; transform: translate(-50%, 50%) scale(0.8); }
             to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
-          /* Bar Chart Effect around Photo */
-        .photo-container div {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding: 5%;
-            z-index: 10;
-        }
-        
-        .photo-container img { width: 100%; height: 100%; object-fit: cover; }
-        .bar {
-            width: 5%; margin: 0 1.5%; background-color: #0ff; height: 0; 
-            transition: height 0.8s ease-out; border-radius: 2px 2px 0 0;
-            box-shadow: 0 0 5px #0ff;
-        }
-        
-        /* NEW, RELIABLE ORBIT CSS */
+          
+        /* Orbit CSS */
         .skill-icon {
             position: absolute; 
             width: 50px; 
@@ -461,9 +423,8 @@
             top: 50%; 
             left: 50%;
             
-            --radius: 250px; /* Radius of the orbit */
+            --radius: 250px; 
             
-            /* CORRECTED ORBIT TRANSFORM LOGIC */
             transform: 
                 translate(-50%, -50%) 
                 rotate(var(--rotation)) 
@@ -472,7 +433,7 @@
         }
         .skill-icon:hover { background-color: #0ff; color: #111; box-shadow: 0 0 20px #fff; }
 
-        /* Rotational Positions for 11 Icons (360 / 11 = 32.727 degrees apart) */
+        /* Rotational Positions */
         .icon-html { --rotation: 0deg; } 
         .icon-css { --rotation: 32.727deg; }
         .icon-js { --rotation: 65.454deg; } 
@@ -503,18 +464,10 @@
             100% { opacity: 0; }
         }
         
-        .about-photo-wrapper:hover .image-stack img:nth-child(1) {
-            animation: imageCycle 4s infinite 0s;
-        }
-        .about-photo-wrapper:hover .image-stack img:nth-child(2) {
-            animation: imageCycle 4s infinite 1s;
-        }
-        .about-photo-wrapper:hover .image-stack img:nth-child(3) {
-            animation: imageCycle 4s infinite 2s;
-        }
-        .about-photo-wrapper:hover .image-stack img:nth-child(4) {
-            animation: imageCycle 4s infinite 3s;
-        }
+        .about-photo-wrapper:hover .image-stack img:nth-child(1) { animation: imageCycle 4s infinite 0s; }
+        .about-photo-wrapper:hover .image-stack img:nth-child(2) { animation: imageCycle 4s infinite 1s; }
+        .about-photo-wrapper:hover .image-stack img:nth-child(3) { animation: imageCycle 4s infinite 2s; }
+        .about-photo-wrapper:hover .image-stack img:nth-child(4) { animation: imageCycle 4s infinite 3s; }
 
         .about-text { max-width:600px; padding:30px; background: rgba(0,255,255,0.05); border:1px solid #0ff; border-radius:15px; text-align:left; box-shadow:0 0 20px rgba(0, 255, 255, 0.5); transition: box-shadow 0.5s;}
         .about-text:hover { box-shadow:0 0 40px #0ff; }
@@ -645,7 +598,6 @@
         /* 9. RESPONSIVE DESIGN                 */
         /* ==================================== */
 
-        /* 1200px: Medium Screens - Adjusting sidebar padding slightly */
         @media(max-width:1200px){
             .hero-grid { flex-direction: column; gap: 50px; }
             .hero-text-area { max-width: 100%; text-align: center; }
@@ -655,36 +607,28 @@
             .skill-icon i { font-size: 1.8rem; }
         }
 
-        /* 900px: Mobile Layout Activation */
         @media(max-width:900px){
-            /* Mobile Layout Overrides */
-
-            /* Sidebar Collapse */
             #sidebar {
                 left: -300px; 
                 width: 250px;
                 background: rgba(0, 0, 0, 0.98);
                 padding-top: 80px;
                 border-right: 2px solid #0ff;
-                z-index: 105; /* Ensure it is over the main content */
+                z-index: 105; 
             }
             #sidebar.open {
                 left: 0;
                 box-shadow: 0 0 50px rgba(0, 255, 255, 0.8);
             }
-            
-            /* Main Content Reset - CRITICAL for Mobile */
             #main-content {
-                margin-left: 0; /* Remove desktop offset */
+                margin-left: 0; 
             }
-
-            /* Show Menu Toggle Button */
             .menu-toggle {
                 display: flex; 
                 position: fixed; 
                 top: 20px;
                 left: 20px;
-                z-index: 110; /* Ensure it is above the sidebar */
+                z-index: 110;
                 color: #0ff;
                 font-size: 1.8rem;
                 cursor: pointer;
@@ -698,28 +642,22 @@
                 box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
                 transition: all 0.3s;
             }
-            
-            /* Global Section Adjustments */
             section { 
                 padding: 80px 5%; 
                 min-height: auto;
             }
-            
-            /* Home */
             #home { padding: 80px 20px; }
-            
-            /* General Layout */
+            .hero-text-area h1 { font-size: 3rem; }
             .about-container { flex-direction: column; }
             .contact-container { flex-direction: column; align-items: center; }
             .contact-form, .contact-info { max-width: 100%; width: 100%; }
         }
 
-        /* 600px: Extra fine-tuning for smaller smartphones */
         @media(max-width:600px){
            h2 { font-size: 2.2rem; margin-bottom: 30px; }
             .hero-text-area h1 { 
                 font-size: 2.2rem; 
-                /* Removed min-height here because we are using the new typing-wrapper reserve */
+                /* Note: min-height removed as we use typing wrapper reserve */
             }
             /* .typed-cursor handled in new CSS block */
             #intro-text { font-size: 1.2rem; }
@@ -743,7 +681,7 @@
 
     <nav id="sidebar">
         <div class="profile-photo">
-            <img src="C:\Users\sathi\OneDrive\Desktop\portfolio\sathish.jpg" alt="Sathish K Profile">
+            <img src="./assets/sathish.jpg" alt="Sathish K Profile">
         </div>
         <h3 class="profile-name">Sathish K</h3>
         <p class="profile-title">Full Stack Developer</p>
@@ -817,7 +755,7 @@
                                 <div class="bar" data-height="95"></div>
                                 <div class="bar" data-height="70"></div>
                             </div>
-                            <img src="C:\Users\sathi\OneDrive\Desktop\portfolio\sathish.jpg" alt="My Profile Photo">
+                            <img src="./assets/sathish.jpg" alt="My Profile Photo">
                         </div>
                     </div>
                 </div>
@@ -1032,7 +970,6 @@
 
             if (currentScroll < scrollThreshold || window.location.hash === '#home') {
                 if (!homeAnimationRun) {
-                    // Re-run bar animation if scrolling back to home
                     runBarAnimation(); 
                 }
             } else {
@@ -1056,7 +993,6 @@
             const form = document.getElementById('contactForm');
             const formButton = form.querySelector('.btn');
             
-            // NOTE: These are the EmailJS Service/Template IDs from your original code.
             const serviceID = 'service_ke1z42e'; 
             const templateID = 'template_q7o84ct'; 
 
@@ -1071,7 +1007,7 @@
                     showSuccessOverlay(); 
                 })
                 .catch((err) => {
-                    alert(`Failed to send the message. Please check the EmailJS service and template IDs. Error: ${JSON.stringify(err)}`);
+                    alert(`Failed to send the message. Error: ${JSON.stringify(err)}`);
                     console.error("EmailJS Error:", err);
                 })
                 .finally(() => {
@@ -1089,7 +1025,6 @@
 
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                // Use a larger offset for better link switching
                 if (window.scrollY >= sectionTop - window.innerHeight * 0.5) { 
                     current = section.getAttribute('id');
                 }
@@ -1121,15 +1056,15 @@
           const staticEl = document.getElementById('heroStatic');
 
           if(!typedEl || !wrapper || !staticEl) {
-            // nothing to do if structure not found
             return;
           }
 
-          // measure pixel width of given text using computed font
+          // Measure pixel width of given text using computed font
           function measureTextPx(text, referenceEl){
             const canvas = measureTextPx._canvas || (measureTextPx._canvas = document.createElement('canvas'));
             const ctx = canvas.getContext('2d');
             const comp = window.getComputedStyle(referenceEl);
+            // Construct the font string carefully
             const font = [comp.fontStyle, comp.fontVariant, comp.fontWeight, comp.fontSize, comp.fontFamily].filter(Boolean).join(' ');
             ctx.font = font;
             return Math.ceil(ctx.measureText(text).width);
@@ -1148,7 +1083,7 @@
             maxPx += breathing;
 
             // clamp to viewport to prevent horizontal overflow on tiny phones
-            const maxAllowed = Math.max(120, Math.floor(window.innerWidth - 36)); // leave margin
+            const maxAllowed = Math.max(120, Math.floor(window.innerWidth - 36)); 
             const final = Math.min(maxPx, maxAllowed);
 
             // apply as min-width to wrapper so H1 area cannot shrink/expand
@@ -1156,18 +1091,26 @@
 
             // position typed-area start to the right of the static text
             const staticWidth = measureTextPx(staticText + ' ', staticEl);
-            const leftOffset = Math.min(staticWidth + 8, Math.floor(window.innerWidth * 0.7)); // clamp
+            const leftOffset = Math.min(staticWidth + 8, Math.floor(window.innerWidth * 0.7)); 
             const typedArea = document.getElementById('typedArea');
             if(typedArea) typedArea.style.left = leftOffset + 'px';
           }
 
-          // small adaptive handler: re-apply reserve on resize and font load
           function safeApply(){
             try{ applyReserve(); } catch(e){ console.warn('reserve apply failed', e); }
           }
+
+          // Listen for resize
           window.addEventListener('resize', safeApply);
-          // Some browsers may delay webfont load — re-run after load event
-          window.addEventListener('load', safeApply);
+          
+          // CRITICAL FIX: Wait for fonts to be ready before measuring
+          if (document.fonts) {
+              document.fonts.ready.then(safeApply);
+          } else {
+              // Fallback for older browsers
+              window.addEventListener('load', safeApply);
+          }
+          
           safeApply();
 
           // Typing engine (non-blocking)
@@ -1197,46 +1140,33 @@
             }
           }
 
-          // Ensure cursor blinking (no layout)
           if(cursorEl) cursorEl.style.willChange = 'opacity, transform';
 
-          // Start when DOM ready (if already ready, start now)
           if(document.readyState === 'loading'){
             document.addEventListener('DOMContentLoaded', () => { safeApply(); setTimeout(typeChar, 400); });
           } else {
             safeApply(); setTimeout(typeChar, 400);
           }
-
-          // DEBUG: capture snapshots of widths before/after typing to find moving element
-          window.__typingDebug = function captureTypingSnapshot(){
-            const all = [...document.querySelectorAll('body *')];
-            return all.map(el => {
-              const r = el.getBoundingClientRect();
-              return { el, w: Math.round(r.width), h: Math.round(r.height), id: el.id || null, cls: el.className || null };
-            }).filter(x => x.w > 0);
-          };
         })();
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Initialize EmailJS with your Public Key (vdZC4c4_myQ5nnRme)
+            // Initialize EmailJS
             (function () {
                 emailjs.init("vdZC4c4_myQ5nnRme"); 
             })();
             
-            // Start the animations
+            // Start animations
             runVisualAnimation();
 
-            // Event listeners
             window.addEventListener('scroll', updateActiveLink);
             window.addEventListener('scroll', checkHomeSection); 
             window.addEventListener('hashchange', checkHomeSection); 
             
             updateActiveLink(); 
 
-            // Close mobile menu on link click
+            // Close mobile menu
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', (e) => {
-                    // Check if window width is for mobile (less than or equal to 900px, matching CSS breakpoint)
                     if (window.innerWidth <= 900) { toggleMenu(); }
                 });
             });
