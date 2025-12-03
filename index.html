@@ -36,7 +36,6 @@
             background: var(--background-color);
             color: var(--text-color);
             line-height: 1.7;
-            /* CRITICAL: Prevents horizontal scroll/movement on mobile */
             overflow-x: hidden !important; 
             width: 100%;
         }
@@ -114,7 +113,7 @@
         }
 
         /* ==================================== */
-        /* 2. SIDEBAR NAVIGATION & HOME SECTION */
+        /* 2. SIDEBAR NAVIGATION                */
         /* ==================================== */
         #sidebar {
             width: var(--sidebar-width);
@@ -219,7 +218,9 @@
             cursor: pointer;
         }
 
-        /* HOME SECTION */
+        /* ==================================== */
+        /* 3. HOME SECTION                      */
+        /* ==================================== */
         #home {
             padding-left: 5%;
             text-align: left; 
@@ -246,74 +247,67 @@
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        /* ======================================================= */
-        /* === ROBUST TYPING CSS (PREVENTS PAGE JUMP) ============ */
-        /* ======================================================= */
-        .typing-wrapper {
-            display: inline-block;
-            position: relative;
-            vertical-align: middle;
-            /* Fallback minimum width */
-            min-width: 20ch; 
-            max-width: 100%;
-            overflow: visible;
-        }
-
-        /* Target specific H1 inside the wrapper to override specificity */
-        .typing-wrapper h1.hero-heading, 
-        #heroStatic {
-            display: inline-block;
-            margin: 0;
-            padding: 0;
-            white-space: nowrap;
-            vertical-align: middle;
-            font-weight: 700;
-            line-height: 1;
-            /* Use inherit to respect .hero-text-area h1 size */
-            font-size: inherit; 
+        /* --- TYPING ANIMATION STYLES (SINGLE LINE FIX) --- */
+        
+        /* 1. Main Container: Forces items to sit side-by-side */
+        .typing-container {
+            display: flex;
+            align-items: center;  /* Vertically aligns text */
+            justify-content: flex-start; /* Aligns to the left */
+            gap: 10px; /* Space between "I am a" and the typed text */
+            flex-wrap: nowrap; /* CRITICAL: This forces them to stay on one line */
+            width: 100%;
+            overflow: hidden; /* Safety to prevent scrollbars */
             margin-bottom: 20px;
         }
 
-        .typed-area {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        /* 2. Static Text ("I am a") */
+        .static-text {
+            margin: 0;
+            padding: 0;
+            color: #fff; /* White color */
+            font-size: 3rem; 
+            font-weight: 700;
+            line-height: 1;
+            white-space: nowrap; /* Prevents "I am a" from breaking */
+        }
+
+        /* 3. Wrapper for typed part */
+        .dynamic-wrapper {
             display: flex;
             align-items: center;
-            gap: 8px;
-            pointer-events: none;
-            overflow: hidden; 
         }
 
+        /* 4. Typed Text ("Technology...") */
         .typed-text {
-            white-space: nowrap;
-            display: inline-block;
-            min-width: 0;
-            will-change: contents, transform;
-            transform: translateZ(0); 
-            color: var(--primary-color);
+            color: #0ff; /* Neon Cyan */
+            font-size: 3rem; 
             font-weight: 700;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-            font-size: inherit; /* Inherit size from parent */
+            line-height: 1;
+            white-space: nowrap; /* Prevents typed text from breaking */
+            
+            /* The Glow Effect */
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 
+                         0 0 20px rgba(0, 255, 255, 0.5);
         }
 
-        .typed-cursor { 
+        /* 5. The Cursor */
+        .cursor {
             display: inline-block;
             width: 3px;
-            height: 1em; /* Scaled to font size */
-            background: var(--primary-color);
-            margin-left: 6px;
-            border-radius: 2px;
-            animation: blink .7s infinite;
+            height: 3rem;
+            background-color: #0ff;
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
         }
-        @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
 
-        @media (max-width:420px){
-            .typing-wrapper { min-width: 12ch; }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
-        /* ======================================================= */
+
+        /* --- END TYPING STYLES --- */
+
 
         /* Hero Visual Graphic */
         .hero-visual-area {
@@ -448,7 +442,7 @@
      
 
         /* ==================================== */
-        /* 3. ABOUT SECTION                     */
+        /* 4. ABOUT SECTION                     */
         /* ==================================== */
         .about-container { display:flex; flex-wrap:wrap; align-items:center; gap:40px; justify-content:center; margin-top: 40px; }
         .about-photo-wrapper { width: 250px; height: 250px; position: relative; border-radius: 50%; overflow: hidden; border: 5px solid #0ff; box-shadow: 0 0 30px rgba(0, 255, 255, 0.8); transition: box-shadow 0.5s; }
@@ -474,7 +468,7 @@
         .about-text h2 { margin-top: 0; margin-bottom: 15px; font-size: 2.2rem; color: #0ff; text-shadow: none; }
 
         /* ==================================== */
-        /* 4. SKILLS SECTION                    */
+        /* 5. SKILLS SECTION                    */
         /* ==================================== */
         #skills .skills-grid { max-width: 900px; margin-top: 40px; display:flex; flex-wrap:wrap; gap: 50px 60px; justify-content:center; }
         .skill-wrapper { position: relative; display: inline-block; perspective: 1000px; margin: 15px 0; }
@@ -488,7 +482,7 @@
         .skill-wrapper:hover .skill-icon-container i { color: #0ff; text-shadow: 0 0 15px #0ff; }
 
         /* ==================================== */
-        /* 5. PROJECTS SECTION                  */
+        /* 6. PROJECTS SECTION                  */
         /* ==================================== */
         .projects-grid { display:flex; flex-wrap:wrap; gap:40px; justify-content:center; }
         .project-card { width: 320px; min-height: 450px; position: relative; z-index: 1; overflow: hidden; background: rgba(0,255,255,0.03); border: 1px solid rgba(0,255,255,0.2); border-radius:15px; padding: 0; text-align:center; transition: all 0.4s ease-out; box-shadow: 0 0 8px rgba(0, 255, 255, 0.2); cursor: pointer; }
@@ -505,7 +499,7 @@
         .project-card:hover h3 { text-shadow: 0 0 20px #fff, 0 0 30px #0ff; }
         
         /* ==================================== */
-        /* 6. CERTIFICATIONS SECTION            */
+        /* 7. CERTIFICATIONS SECTION            */
         /* ==================================== */
         .btn-verify { display:inline-block; padding:8px 15px; border:1px solid #0ff; color:#111; border-radius:5px; font-size: 0.9rem; font-weight: bold; transition: all 0.3s ease; text-transform: uppercase; background: #0ff; box-shadow: 0 0 10px #0ff; }
         .btn-verify:hover { background: #00cccc; box-shadow: 0 0 25px #0ff; transform: translateY(-1px); }
@@ -523,7 +517,7 @@
         .cert-card * { position: relative; z-index: 1; }
 
         /* ==================================== */
-        /* 7. CONTACT SECTION                   */
+        /* 8. CONTACT SECTION                   */
         /* ==================================== */
          #contact { min-height: 80vh; }
         .contact-container { display: flex; gap: 60px; align-items: flex-start; justify-content: center; width: 100%; background: #0a0a0a; padding: 50px; border-radius: 12px; border: 1px solid #222; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.05); }
@@ -543,7 +537,7 @@
         .contact-details span { font-size: 1.1rem; font-weight: 400; color: #ccc; }
         
         /* ==================================== */
-        /* 8. SUCCESS MODAL OVERLAY             */
+        /* 9. SUCCESS MODAL OVERLAY             */
         /* ==================================== */
         #successOverlay {
             position: fixed;
@@ -595,7 +589,7 @@
         }
 
         /* ==================================== */
-        /* 9. RESPONSIVE DESIGN                 */
+        /* 10. RESPONSIVE DESIGN                */
         /* ==================================== */
 
         @media(max-width:1200px){
@@ -605,6 +599,8 @@
             .photo-container { width: 200px; height: 200px; border: 4px solid rgba(0, 255, 255, 0.5); }
             .skill-icon { width: 50px; height: 50px; }
             .skill-icon i { font-size: 1.8rem; }
+            /* Center the typing container on medium screens if text-align is center */
+            .typing-container { justify-content: center; }
         }
 
         @media(max-width:900px){
@@ -647,31 +643,34 @@
                 min-height: auto;
             }
             #home { padding: 80px 20px; }
-            .hero-text-area h1 { font-size: 3rem; }
             .about-container { flex-direction: column; }
             .contact-container { flex-direction: column; align-items: center; }
             .contact-form, .contact-info { max-width: 100%; width: 100%; }
         }
 
-        @media(max-width:600px){
-           h2 { font-size: 2.2rem; margin-bottom: 30px; }
-            .hero-text-area h1 { 
-                font-size: 2.2rem; 
-                /* Note: min-height removed as we use typing wrapper reserve */
+        /* Responsive Text Scaling for Single-Line Typing */
+        @media (max-width: 768px) {
+            .static-text, .typed-text {
+                font-size: 1.8rem; /* Smaller font to fit on one line */
             }
-            /* .typed-cursor handled in new CSS block */
-            #intro-text { font-size: 1.2rem; }
-            .btn { padding: 10px 20px; font-size: 1rem; margin-right: 10px; }
-            .button-group { display: flex; flex-direction: column; gap: 15px; }
-            .btn-secondary { margin-left: 0; }
-            .about-text { padding: 20px; }
-            .project-card, .cert-card { width: 90%; max-width: 350px; }
-            .contact-container { padding: 20px; }
-            .contact-form { padding: 20px; }
-            .contact-item i { font-size: 1.8rem; }
-            .contact-details span { font-size: 1rem; }
-            .success-box { padding: 30px; }
-            .success-box h3 { font-size: 1.8rem; }
+            .cursor {
+                height: 1.8rem;
+            }
+            .typing-container {
+                gap: 6px;
+                justify-content: center; /* keep centered on mobile */
+            }
+        }
+
+        @media (max-width: 400px) {
+            .static-text, .typed-text {
+                font-size: 1.4rem; /* Even smaller for tiny screens */
+            }
+            .cursor {
+                height: 1.4rem;
+            }
+             h2 { font-size: 2.2rem; }
+             .success-box { padding: 30px; }
         }
     </style>
 </head>
@@ -701,8 +700,7 @@
             <a href="#certifications" class="nav-link">Certifications</a>
             <a href="#contact" class="nav-link">Contact</a>
         </div>
-        
-        </nav>
+    </nav>
     
     <main id="main-content">
         <section id="home">
@@ -710,13 +708,12 @@
                 <div class="hero-text-area">
                     <p id="intro-text">Hello, I'm Sathish K</p>
                     
-                    <div class="typing-wrapper" id="typingWrapper" aria-hidden="false" style="position:relative;">
-                      <h1 class="hero-heading" id="heroStatic">I am a</h1>
-
-                      <div class="typed-area" id="typedArea" aria-live="polite" role="status" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;display:flex;align-items:center;gap:8px;overflow:hidden;white-space:nowrap;">
-                        <span class="typed-text" id="typedText" style="display:inline-block;white-space:nowrap;min-width:0;"></span>
-                        <span class="typed-cursor" id="typedCursor" aria-hidden="true">|</span>
-                      </div>
+                    <div class="typing-container">
+                        <h1 class="static-text">I am a</h1>
+                        <div class="dynamic-wrapper">
+                            <span id="typed-text" class="typed-text"></span>
+                            <span class="cursor">|</span>
+                        </div>
                     </div>
                     <p style="margin-bottom: 15px;">
                         “Rise after every fall; each failure is a lesson shaping your path to success and proving your strength to the world and yourself.”
@@ -765,7 +762,6 @@
         <section id="about">
             <div class="section-content">
                 <h2>About Me</h2>
-                
                 <div class="about-container">
                     <div class="about-photo-wrapper">
                         <div class="image-stack">
@@ -794,7 +790,6 @@
             <div class="section-content">
                 <h2>My Skills</h2>
                 <div class="skills-grid">
-                    
                     <div class="skill-wrapper"><div class="skill"><span class="skill-name">HTML</span></div><div class="skill-icon-container"><i class="fab fa-html5"></i></div></div>
                     <div class="skill-wrapper"><div class="skill"><span class="skill-name">CSS</span></div><div class="skill-icon-container"><i class="fab fa-css3-alt"></i></div></div>
                     <div class="skill-wrapper"><div class="skill"><span class="skill-name">JavaScript</span></div><div class="skill-icon-container"><i class="fab fa-js-square"></i></div></div>
@@ -970,6 +965,7 @@
 
             if (currentScroll < scrollThreshold || window.location.hash === '#home') {
                 if (!homeAnimationRun) {
+                    // Re-run bar animation if scrolling back to home
                     runBarAnimation(); 
                 }
             } else {
@@ -1007,7 +1003,7 @@
                     showSuccessOverlay(); 
                 })
                 .catch((err) => {
-                    alert(`Failed to send the message. Error: ${JSON.stringify(err)}`);
+                    alert(`Failed to send the message. Please check the EmailJS service and template IDs. Error: ${JSON.stringify(err)}`);
                     console.error("EmailJS Error:", err);
                 })
                 .finally(() => {
@@ -1038,126 +1034,17 @@
             });
         }
 
-        // ---- NEW: Robust typing + measured reserve to prevent mobile jumps ----
-        (function robustTyping(){
-          const PHRASES = [
-            "Full Stack Developer",
-            "AI & ML Enthusiast",
-            "Front-End Developer",
-            "Back-End Developer",
-            "UI/UX Designer",
-            "Problem Solver",
-            "Technology Enthusiast"
-          ];
-
-          const typedEl = document.getElementById('typedText');
-          const cursorEl = document.getElementById('typedCursor');
-          const wrapper = document.getElementById('typingWrapper');
-          const staticEl = document.getElementById('heroStatic');
-
-          if(!typedEl || !wrapper || !staticEl) {
-            return;
-          }
-
-          // Measure pixel width of given text using computed font
-          function measureTextPx(text, referenceEl){
-            const canvas = measureTextPx._canvas || (measureTextPx._canvas = document.createElement('canvas'));
-            const ctx = canvas.getContext('2d');
-            const comp = window.getComputedStyle(referenceEl);
-            // Construct the font string carefully
-            const font = [comp.fontStyle, comp.fontVariant, comp.fontWeight, comp.fontSize, comp.fontFamily].filter(Boolean).join(' ');
-            ctx.font = font;
-            return Math.ceil(ctx.measureText(text).width);
-          }
-
-          // Reserve enough width for: static text + longest phrase + breathing room
-          function applyReserve(){
-            const staticText = staticEl.textContent || '';
-            let maxPx = 0;
-            PHRASES.forEach(p => {
-              const full = staticText + ' ' + p;
-              const w = measureTextPx(full, staticEl);
-              if(w > maxPx) maxPx = w;
-            });
-            const breathing = 36; // px for cursor/gap
-            maxPx += breathing;
-
-            // clamp to viewport to prevent horizontal overflow on tiny phones
-            const maxAllowed = Math.max(120, Math.floor(window.innerWidth - 36)); 
-            const final = Math.min(maxPx, maxAllowed);
-
-            // apply as min-width to wrapper so H1 area cannot shrink/expand
-            wrapper.style.minWidth = final + 'px';
-
-            // position typed-area start to the right of the static text
-            const staticWidth = measureTextPx(staticText + ' ', staticEl);
-            const leftOffset = Math.min(staticWidth + 8, Math.floor(window.innerWidth * 0.7)); 
-            const typedArea = document.getElementById('typedArea');
-            if(typedArea) typedArea.style.left = leftOffset + 'px';
-          }
-
-          function safeApply(){
-            try{ applyReserve(); } catch(e){ console.warn('reserve apply failed', e); }
-          }
-
-          // Listen for resize
-          window.addEventListener('resize', safeApply);
-          
-          // CRITICAL FIX: Wait for fonts to be ready before measuring
-          if (document.fonts) {
-              document.fonts.ready.then(safeApply);
-          } else {
-              // Fallback for older browsers
-              window.addEventListener('load', safeApply);
-          }
-          
-          safeApply();
-
-          // Typing engine (non-blocking)
-          let pIndex = 0, cIndex = 0;
-          const typingSpeed = 80;
-          const erasingSpeed = 40;
-          const pauseBetween = 1400;
-
-          function typeChar(){
-            const cur = PHRASES[pIndex];
-            if(cIndex < cur.length){
-              typedEl.textContent += cur.charAt(cIndex);
-              cIndex++;
-              setTimeout(typeChar, typingSpeed);
-            } else {
-              setTimeout(eraseChar, pauseBetween);
-            }
-          }
-          function eraseChar(){
-            if(cIndex > 0){
-              typedEl.textContent = typedEl.textContent.slice(0, -1);
-              cIndex--;
-              setTimeout(eraseChar, erasingSpeed);
-            } else {
-              pIndex = (pIndex + 1) % PHRASES.length;
-              setTimeout(typeChar, 300);
-            }
-          }
-
-          if(cursorEl) cursorEl.style.willChange = 'opacity, transform';
-
-          if(document.readyState === 'loading'){
-            document.addEventListener('DOMContentLoaded', () => { safeApply(); setTimeout(typeChar, 400); });
-          } else {
-            safeApply(); setTimeout(typeChar, 400);
-          }
-        })();
-
+        // ---- NEW TYPING LOGIC (Matches your requested "one line" fix) ----
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize EmailJS
             (function () {
                 emailjs.init("vdZC4c4_myQ5nnRme"); 
             })();
             
-            // Start animations
+            // Start Visual Animations
             runVisualAnimation();
 
+            // Setup Listeners
             window.addEventListener('scroll', updateActiveLink);
             window.addEventListener('scroll', checkHomeSection); 
             window.addEventListener('hashchange', checkHomeSection); 
@@ -1170,6 +1057,49 @@
                     if (window.innerWidth <= 900) { toggleMenu(); }
                 });
             });
+
+            // --- TYPING EFFECT START ---
+            const textElement = document.getElementById("typed-text");
+            const phrases = [
+                "Technology Enthusiast",
+                "Full Stack Developer",
+                "Problem Solver",
+                "UI/UX Designer"
+            ];
+            
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            
+            function typeEffect() {
+                const currentPhrase = phrases[phraseIndex];
+                
+                if (isDeleting) {
+                    textElement.textContent = currentPhrase.substring(0, charIndex--);
+                } else {
+                    textElement.textContent = currentPhrase.substring(0, charIndex++);
+                }
+                
+                // Typing Speed Control
+                let typeSpeed = isDeleting ? 50 : 100;
+
+                if (!isDeleting && charIndex === currentPhrase.length + 1) {
+                    // Finished typing phrase, pause before deleting
+                    isDeleting = true;
+                    typeSpeed = 2000; 
+                } else if (isDeleting && charIndex === 0) {
+                    // Finished deleting, switch to next phrase
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    typeSpeed = 500;
+                }
+
+                setTimeout(typeEffect, typeSpeed);
+            }
+            
+            // Start the loop
+            if(textElement) typeEffect();
+            // --- TYPING EFFECT END ---
         });
     </script>
 </body>
